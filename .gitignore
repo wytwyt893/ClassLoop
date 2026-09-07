@@ -35,3 +35,9 @@ tmp/
 *.pem
 *.key
 
+
+# Embedded project local env
+PollUP/.env*
+PollUP/node_modules/
+PollUP/dist/
+PollUP/.git/
