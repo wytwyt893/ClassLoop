@@ -1,0 +1,62 @@
+﻿[
+    {
+        "path":  "ClassLoop/backend/app/main.py",
+        "sha256":  "EA6E63EF193BEE0296DB3B65DAFB2B14DFA84B20E7C418954A92EA1883F42C17",
+        "length":  76358,
+        "lastWrite":  "2026-09-06T15:46:00"
+    },
+    {
+        "path":  "ClassLoop/backend/app/database.py",
+        "sha256":  "23B17743347DE0F737BD7685AA103473C3FB52C58222A615864FA54C61BB5A52",
+        "length":  15250,
+        "lastWrite":  "2026-09-06T15:44:09"
+    },
+    {
+        "path":  "ClassLoop/backend/app/document_graph.py",
+        "sha256":  "9993106C7D000266261E4DF63665F41C5128EA20F7ED218AE0B5FD1860C90E35",
+        "length":  18174,
+        "lastWrite":  "2026-09-02T14:37:25"
+    },
+    {
+        "path":  "ClassLoop/backend/requirements.txt",
+        "sha256":  "DDDE7D09F23D4AE5CE087B93096B3F3FD2CAD75066391AA17D9C7A96B8A16C47",
+        "length":  130,
+        "lastWrite":  "2026-09-01T21:33:59"
+    },
+    {
+        "path":  "ClassLoop/backend/.env.example",
+        "sha256":  "BF18D13703D998BB3771B9789F2AABE21B8CBEDB1C26F67DFCCEA98D204F733A",
+        "length":  671,
+        "lastWrite":  "2026-09-06T15:46:09"
+    },
+    {
+        "path":  "ClassLoop/frontend/package.json",
+        "sha256":  "898A39890888F7AAFE5C53A212C61D9D3F1BBC3DEB09954E9E8ECC93CE31ACD7",
+        "length":  1303,
+        "lastWrite":  "2026-08-31T17:38:29"
+    },
+    {
+        "path":  "ClassLoop/ClassLoop_项目交接与进度说明_2026-09-03.md",
+        "sha256":  "F0C6974F1BF5DCE7B06EF28086B2FEF1D0E878FAF3DF8FEB8A3CDF17C8ABEE10",
+        "length":  31908,
+        "lastWrite":  "2026-09-03T15:32:59"
+    },
+    {
+        "path":  "venture_agent/backend/app/main.py",
+        "sha256":  "5F372E6D87E01251568BD363202422821D714F3F8149507DC76DA484E661FC3C",
+        "length":  71507,
+        "lastWrite":  "2026-08-30T18:39:59"
+    },
+    {
+        "path":  "venture_agent/backend/app/agent/graph.py",
+        "sha256":  "98D366F131B4E6304B7D839172ADAA761826C4F39136B3927A488C9E14770094",
+        "length":  26083,
+        "lastWrite":  "2026-08-30T18:39:59"
+    },
+    {
+        "path":  "venture_agent/backend/requirements.txt",
+        "sha256":  "D945DF87BD337D2C260823EF7ED291F11E6295FC802A47D4DB91C2B5E2449707",
+        "length":  698,
+        "lastWrite":  "2026-08-30T18:39:59"
+    }
+]

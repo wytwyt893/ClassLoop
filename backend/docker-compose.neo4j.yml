@@ -1,0 +1,17 @@
+services:
+  classloop-neo4j:
+    image: neo4j:2026.07.1
+    container_name: classloop-neo4j
+    restart: unless-stopped
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    environment:
+      NEO4J_AUTH: "neo4j/${CLASSLOOP_NEO4J_PASSWORD:-classloop-graph}"
+    volumes:
+      - classloop_neo4j_data:/data
+      - classloop_neo4j_logs:/logs
+
+volumes:
+  classloop_neo4j_data:
+  classloop_neo4j_logs:

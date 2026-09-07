@@ -1,0 +1,24 @@
+{
+  "runId": "baseline_f534f81d-1fbb-4d06-9800-35d29a33bf54",
+  "flow": "T2",
+  "metadata": {
+    "flow": "T2",
+    "agent": "project_coach",
+    "agentVersion": "v1-baseline",
+    "model": "external-configured-model",
+    "promptVersion": "baseline-v1",
+    "knowledgeBaseVersion": "未指定",
+    "toolConfig": {
+      "provider": "VentureAgent HTTP Adapter",
+      "endpoint": "/api/chat"
+    }
+  },
+  "transportAgent": "project_coach",
+  "startedAt": 1788685806763.152,
+  "finishedAt": 1788685806768.7388,
+  "input": "??????",
+  "prompt": "你正在参加 ClassLoop 第一阶段 Agent 基线测试。只能依据输入内容回答，不能编造事实、引用、用户反馈或运行结果。请把重要判断标记为 F(事实)、I(推断)、H(假设)、S(模拟)，并指出证据来源或‘未提供来源’。\n\n你是项目指导 Agent。先列澄清问题，再给出用户边界、问题定义、替代方案、证据缺口、关键假设和可执行下一步；不要直接替用户编造结论。\n\n【测试输入】\n??????",
+  "output": null,
+  "status": "failed",
+  "error": "尚未配置 CLASSLOOP_AGENT_BASE_URL"
+}
