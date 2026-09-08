@@ -1,4 +1,4 @@
-﻿# Node
+# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -41,3 +41,16 @@ PollUP/.env*
 PollUP/node_modules/
 PollUP/dist/
 PollUP/.git/
+
+
+#document
+*.pdf
+*.pptx
+*.docx
+
+# Other project environments and caches
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/node_modules/

@@ -1,0 +1,122 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Layout, List, Input, Button, Typography, Space, Spin, Avatar } from 'antd';
+import { SendOutlined, UserOutlined, RobotOutlined } from '@ant-design/icons';
+import { API_BASE_URL, buildApiUrl } from './config/api';
+import './App.css';
+
+const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
+
+function App() {
+  const [messages, setMessages] = useState([
+    { role: 'assistant', content: '浣犲ソ锛佹垜鏄?VentureAgent锛屼綘鐨勫垱鏂板垱涓氭櫤鑳戒綋鍔╃悊銆傛垜浠彲浠ヨ璁轰綘鐨勫垱涓氭兂娉曘€? }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSend = async () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage = inputValue.trim();
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+    setInputValue('');
+    setLoading(true);
+
+    try {
+      const response = await fetch(buildApiUrl('/api/chat'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error('缃戠粶璇锋眰寮傚父 (鐘舵€佺爜: ' + response.status + ')');
+      }
+
+      const data = await response.json();
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
+    } catch (error) {
+      console.error('鑾峰彇鍝嶅簲鏃跺嚭閿?', error);
+      setMessages((prev) => [...prev, { role: 'assistant', content: `[请求出错] 无法连接到后端服务器，请检查后端是否运行在 ${API_BASE_URL}。详细信息: ${error.message}` }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  return (
+    <Layout className="layout">
+      <Header className="header">
+        <Title level={3} style={{ color: 'white', margin: '16px 0' }}>VentureAgent MVP</Title>
+      </Header>
+
+      <Content className="content">
+        <div className="chat-container">
+          <List
+            className="message-list"
+            itemLayout="horizontal"
+            dataSource={messages}
+            renderItem={(item) => (
+              <List.Item className={`message-item ${item.role}`}>
+                <div className={`message-bubble ${item.role}`}>
+                  <div className="message-avatar">
+                    {item.role === 'user' ? <Avatar icon={<UserOutlined />} /> : <Avatar style={{ backgroundColor: '#1890ff' }} icon={<RobotOutlined />} />}
+                  </div>
+                  <div className="message-content">
+                    {item.content}
+                  </div>
+                </div>
+              </List.Item>
+            )}
+          />
+          {loading && (
+            <div className="loading-container">
+              <Spin tip="Agent 姝ｅ湪鎬濊€冧腑..." />
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+      </Content>
+
+      <Footer className="footer">
+        <Space.Compact style={{ width: '100%', maxWidth: '800px' }}>
+          <Input.TextArea
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="杈撳叆浣犵殑闂鎴栧垱涓氭兂娉?(渚嬪: 浠€涔堟槸绮剧泭鍒涗笟锛?鎴?鎴戞兂鍋氫竴涓牎鍥鍗栫殑椤圭洰)... 鎸?Enter 鍙戦€?
+            autoSize={{ minRows: 1, maxRows: 4 }}
+            disabled={loading}
+          />
+          <Button
+            type="primary"
+            onClick={handleSend}
+            loading={loading}
+            icon={<SendOutlined />}
+            style={{ height: 'auto' }}
+          >
+            鍙戦€?          </Button>
+        </Space.Compact>
+      </Footer>
+    </Layout>
+  );
+}
+
+export default App;

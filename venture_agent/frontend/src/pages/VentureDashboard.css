@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+:root {
+    --primary-blue: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-main: #fcfcfd;
+    --sidebar-bg: #f9f9fb;
+    --nav-rail-bg: #121212;
+    --border-soft: #f1f3f5;
+    --text-dark: #1a1a1b;
+    --text-muted: #8e8e93;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+
+/* 布局容器 */
+.workspace-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 1. 导航窄栏 (Nav Rail) */
+.nav-rail {
+    width: 82px;
+    background-color: var(--nav-rail-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
+    gap: 20px;
+}
+
+.nav-item {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #a0a0a0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 4px;
+}
+
+.nav-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.nav-label span:first-child {
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.nav-label .en {
+    font-size: 8px;
+    opacity: 0.4;
+    font-weight: 400;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-item.active {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. 消息气泡优化 */
+.message-bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.ant-avatar {
+    flex-shrink: 0;
+}
+
+.bot-bubble {
+    background: transparent;
+    border: none;
+}
+
+.user-bubble {
+    background: #f4f4f5;
+    color: var(--text-dark);
+}
+
+/* 3. 右侧控制台卡片 */
+.console-card {
+    background: white;
+    border: 1px solid var(--border-soft);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.console-card h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 自定义滚动条 */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 10px;
+}
+
+/* 按钮增强 */
+.btn-new-chat {
+    width: 100%;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%) !important;
+    color: white !important;
+    border: none !important;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2) !important;
+}
+
+.btn-new-chat:hover {
+    background: #1d4ed8;
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+    transform: translateY(-2px);
+}
+
+.btn-new-chat:active {
+    transform: translateY(0);
+}
+
+.btn-import-project {
+    width: 100%;
+    height: 42px;
+    border-radius: 14px;
+    background: white !important;
+    color: #475569 !important;
+    border: 2px solid #f1f5f9 !important;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+.btn-import-project:hover {
+    background: #dbeafe;
+    transform: translateY(-2px);
+}
+
+.btn-new-chat:hover,
+.btn-import-project:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 编辑器容器白底描边 */
+.editor-surface {
+    background: white;
+    border: 1px solid #f1f3f5;
+    border-radius: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
+}
+
+/* 文本解析样式 */
+.prose-content {
+    line-height: 1.8;
+    color: #334155;
+}
+
+/* 4. 高级弹窗 (Premium Modal) */
+.premium-modal .ant-modal-content {
+    border-radius: 32px !important;
+    padding: 24px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.premium-modal .ant-modal-header {
+    margin-bottom: 24px !important;
+    background: transparent !important;
+}
+
+.premium-modal .ant-modal-footer {
+    margin-top: 24px !important;
+    border-top: 1px solid #f1f3f5 !important;
+    padding-top: 16px !important;
+}
+
+/* 5. 动画扩展 */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* 列表滚动条优化 */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 transparent;
+}

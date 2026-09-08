@@ -1,0 +1,41 @@
+﻿# ClassLoop V1 冻结门检查（S01）
+
+生成时间：2026-09-06T16:36:05
+
+## 当前结论
+- **ClassLoop 可靠 V1 首次基线：未确认**。当前仓库未发现 T1/T2/T3 首次基线日志、完整原始对话、截图索引或问题案例归档。
+- **Agent 行为核心代码/Prompt/模型配置/知识库：本步骤不修改**。
+- **V1 冻结对象**：ClassLoop 后端/前端关键入口、VentureAgent 调用入口、依赖清单、环境变量模板、选定课件输入、外部 Agent commit。
+- **VentureAgent commit**：1ad7ce5e9fb77fc730455638670b73c0c5435951
+- **ClassLoop Git commit**：当前 ClassLoop 根目录未检测到 .git，使用 SHA-256 文件清单替代版本定位。
+
+## 已确认的 Agent 链路
+1. ClassLoop ackend/app/main.py 定义 GET /api/agent/status。
+2. ClassLoop ackend/app/main.py 定义 POST /api/sessions/{session_id}/agent/diagnose。
+3. ClassLoop 通过 CLASSLOOP_AGENT_BASE_URL 调用外部 VentureAgent 的 /api/chat。
+4. ClassLoop 请求中固定传递 gent=project_coach。
+5. VentureAgent ackend/app/main.py 的 /api/chat 支持 learning_tutor 与 project_coach，并另有 /api/projects/{project_id}/review 评审接口。
+
+## 已确认配置
+- ClassLoop Agent provider：VentureAgent HTTP Adapter
+- 默认模型标识：external-configured-model（可由 CLASSLOOP_AGENT_MODEL 覆盖）
+- 当前 .env.example 示例：deepseek-chat
+- Agent 超时：5—120 秒范围，示例 45 秒
+- ClassLoop Python 依赖：FastAPI、Uvicorn、Pydantic、python-multipart、pypdf、python-pptx、neo4j
+
+## 缺失证据
+- V1 冻结日期/责任人签署记录
+- Prompt 独立版本号和完整快照
+- 知识库版本清单及输入文件哈希
+- T1 理论学习首次运行记录
+- T2 项目指导首次运行记录
+- T3 项目评审首次运行记录
+- 人工干预日志
+- 至少 5 个真实、可复现问题案例
+
+## 证据诚信边界
+本清单只记录从代码、配置和文件系统确认的事实；没有把计划、占位 UI、预置数据或 VentureAgent 文档中的设计描述当作已完成测试结果。
+
+## 文件定位
+- ClassLoop/evidence/v1_freeze/file_manifest.json：关键文件 SHA-256 清单
+
