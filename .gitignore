@@ -30,6 +30,9 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Archived metadata for repositories that are now managed by the parent repo
+/.frozen-repositories/
+
 # Logs and temporary files
 *.log
 .tmp/

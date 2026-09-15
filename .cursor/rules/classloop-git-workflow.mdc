@@ -1,0 +1,13 @@
+---
+description: Keep all course-practice changes in the ClassLoop parent repository
+alwaysApply: true
+---
+
+# Git Repository Workflow
+
+- Treat `大数据技术课程实践/` as the only active Git repository root.
+- Treat `venture_agent/` as a normal vendored directory inside the parent repository, not as an independently maintained repository.
+- Stage and commit all future changes under `venture_agent/` in the parent ClassLoop repository.
+- Push those commits only to the parent repository's `origin` (`wytwyt893/ClassLoop.git`).
+- Do not push, pull, fetch, commit, or initialize the legacy VentureAgent repository or its former remote.
+- Legacy VentureAgent Git metadata may exist under the ignored local backup directory `.frozen-repositories/`; never add that directory to Git.

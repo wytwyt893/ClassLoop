@@ -2,6 +2,10 @@
 
 本仓库以课程实践目录为根，包含当前项目 `ClassLoop/` 和暂时冻结的 `venture_agent/`。两套项目使用相互隔离的 Neo4j：ClassLoop 使用 Browser `7475`、Bolt `7688`；VentureAgent 使用 Browser `7474`、Bolt `7687`。
 
+## Git 工作流
+
+`大数据技术课程实践/` 是唯一需要维护的 Git 仓库根目录。`venture_agent/` 作为其中的普通目录保留；以后对它的修改也应在父级仓库提交，并只推送到 `wytwyt893/ClassLoop.git`，不要再使用或更新旧 VentureAgent 远端。
+
 ## 首次克隆后的准备
 
 ```powershell
