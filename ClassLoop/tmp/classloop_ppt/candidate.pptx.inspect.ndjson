@@ -1,0 +1,208 @@
+{"kind":"deck","id":"pr/a5p5qs","name":"Deck"}
+{"kind":"layout","layoutId":"c0dcce0a-00e3-4dc1-8ced-1d4e8c51d863","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"7b2416aa-c1e9-4fad-a6cc-3228d7ae0a44","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/gfcuey","slide":1,"title":"CLASSLOOP","textShapes":8}
+{"kind":"shape","id":"sh/jut8jel4","slide":1,"bbox":[72,72,1136,560]}
+{"kind":"shape","id":"sh/kv29sjmp","slide":1,"bbox":[72,72,14,560]}
+{"kind":"textbox","id":"sh/lwbql43a","slide":1,"text":"CLASSLOOP","textPreview":"CLASSLOOP","textChars":9,"textLines":1,"bbox":[126,132,350,34]}
+{"kind":"textbox","id":"sh/6xkru94v","slide":1,"text":"认知反馈课堂","textPreview":"认知反馈课堂","textChars":6,"textLines":1,"bbox":[126,185,760,78]}
+{"kind":"textbox","id":"sh/7ytsnelg","slide":1,"text":"把“教师讲到哪一页”与“学生哪里没听懂”连接起来","textPreview":"把“教师讲到哪一页”与“学生哪里没听懂”连接起来","textChars":24,"textLines":1,"bbox":[130,285,800,46]}
+{"kind":"textbox","id":"sh/8jm9wj21","slide":1,"text":"大数据技术课程实践 · 项目简介","textPreview":"大数据技术课程实践 · 项目简介","textChars":16,"textLines":1,"bbox":[130,544,600,30]}
+{"kind":"shape","id":"sh/tkvapo3m","slide":1,"bbox":[880,200,120,78]}
+{"kind":"textbox","id":"sh/ul4rytkr","slide":1,"text":"教师\n讲解页","textPreview":"教师 | 讲解页","textChars":6,"textLines":2,"bbox":[880,212,120,54]}
+{"kind":"shape","id":"sh/vmdsrylc","slide":1,"bbox":[1030,300,120,78]}
+{"kind":"textbox","id":"sh/zipwjeho","slide":1,"text":"学生\n看同页","textPreview":"学生 | 看同页","textChars":6,"textLines":2,"bbox":[1030,312,120,54]}
+{"kind":"shape","id":"sh/yhgvq9g3","slide":1,"bbox":[880,440,120,78]}
+{"kind":"textbox","id":"sh/lk7elozu","slide":1,"text":"即时\n反馈","textPreview":"即时 | 反馈","textChars":5,"textLines":2,"bbox":[880,452,120,54]}
+{"kind":"shape","id":"sh/kjydsjy9","slide":1,"bbox":[730,300,120,78]}
+{"kind":"textbox","id":"sh/bupwfehc","slide":1,"text":"教师\n调整","textPreview":"教师 | 调整","textChars":5,"textLines":2,"bbox":[730,312,120,54]}
+{"kind":"shape","id":"sh/atgvm907","slide":1,"bbox":[1000,240,30,60]}
+{"kind":"shape","id":"sh/xg7eh4zi","slide":1,"bbox":[940,378,90,62]}
+{"kind":"shape","id":"sh/cfydozyx","slide":1,"bbox":[790,378,90,62]}
+{"kind":"shape","id":"sh/va9wryhw","slide":1,"bbox":[790,240,90,60]}
+{"kind":"notes","id":"nt/gfcuey","slide":1,"text":"来源：ClassLoop/README.md；ClassLoop/项目交接与进度说明_2026-09-03.md。封面只概括当前产品定位，不宣称已验证教学效果。"}
+{"kind":"slide","id":"sl/j5oh4q","slide":2,"title":"01 · 项目定位","textShapes":15}
+{"kind":"textbox","id":"sh/p07atc3u","slide":2,"text":"01 · 项目定位","textPreview":"01 · 项目定位","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/2xgryxk3","slide":2,"text":"课堂里真正缺的不是题目，而是反馈位置","textPreview":"课堂里真正缺的不是题目，而是反馈位置","textChars":18,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/3ypsr2lo","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/c3i94725","slide":2,"bbox":[72,142,1136,0]}
+{"kind":"textbox","id":"sh/d4raxc3q","slide":2,"text":"传统课堂反馈","textPreview":"传统课堂反馈","textChars":6,"textLines":1,"bbox":[88,190,300,32]}
+{"kind":"textbox","id":"sh/q1gr2hkz","slide":2,"text":"有人没听懂","textPreview":"有人没听懂","textChars":5,"textLines":1,"bbox":[88,246,320,62]}
+{"kind":"textbox","id":"sh/b29sv2lk","slide":2,"text":"但教师不一定知道：\n是哪一页、哪一段、哪一个知识点","textPreview":"但教师不一定知道： | 是哪一页、哪一段、哪一个知识点","textChars":25,"textLines":2,"bbox":[88,330,400,86]}
+{"kind":"shape","id":"sh/s7e9sn21","slide":2,"bbox":[590,184,560,350]}
+{"kind":"textbox","id":"sh/t8nqls3m","slide":2,"text":"课堂反馈的定位尺度","textPreview":"课堂反馈的定位尺度","textChars":9,"textLines":1,"bbox":[638,218,450,32]}
+{"kind":"shape","id":"sh/1knqlsr6","slide":2,"bbox":[640,286,160,48]}
+{"kind":"textbox","id":"sh/gjepcnal","slide":2,"text":"课堂整体","textPreview":"课堂整体","textChars":4,"textLines":1,"bbox":[640,293,160,34]}
+{"kind":"textbox","id":"sh/fil8ji90","slide":2,"text":"知道有人不理解","textPreview":"知道有人不理解","textChars":7,"textLines":1,"bbox":[835,293,260,34]}
+{"kind":"shape","id":"sh/ehc7adsf","slide":2,"bbox":[640,362,160,48]}
+{"kind":"textbox","id":"sh/ponqpsr2","slide":2,"text":"题目层面","textPreview":"题目层面","textChars":4,"textLines":1,"bbox":[640,369,160,34]}
+{"kind":"textbox","id":"sh/onepgnah","slide":2,"text":"知道哪道题答错","textPreview":"知道哪道题答错","textChars":7,"textLines":1,"bbox":[835,369,260,34]}
+{"kind":"shape","id":"sh/3m58n29w","slide":2,"bbox":[640,438,160,48]}
+{"kind":"textbox","id":"sh/2lw7exsb","slide":2,"text":"课件页级","textPreview":"课件页级","textChars":4,"textLines":1,"bbox":[640,445,160,34]}
+{"kind":"textbox","id":"sh/ds7qtcre","slide":2,"text":"知道当前讲到哪一页卡住","textPreview":"知道当前讲到哪一页卡住","textChars":11,"textLines":1,"bbox":[835,445,260,34]}
+{"kind":"textbox","id":"sh/crypk7at","slide":2,"text":"项目边界","textPreview":"项目边界","textChars":4,"textLines":1,"bbox":[88,566,160,28]}
+{"kind":"textbox","id":"sh/w7q1cfm1","slide":2,"text":"面向同步理论课堂的教师与当前课堂学生，不替代教师，也不把演示数据当作教学效果证据。","textPreview":"面向同步理论课堂的教师与当前课堂学生，不替代教师，也不把演示数据当作教学效果证据。","textChars":41,"textLines":1,"bbox":[240,560,870,42]}
+{"kind":"notes","id":"nt/j5oh4q","slide":2,"text":"事实依据：ClassLoop 当前三端功能和页级反馈代码。项目痛点与价值属于待验证假设，汇报时不应描述为大规模调研结论。"}
+{"kind":"slide","id":"sl/3d45y5","slide":3,"title":"02 · 使用场景","textShapes":19}
+{"kind":"textbox","id":"sh/wry5wbu1","slide":3,"text":"02 · 使用场景","textPreview":"02 · 使用场景","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/vqpon6dw","slide":3,"text":"一节数据结构课里的实时反馈闭环","textPreview":"一节数据结构课里的实时反馈闭环","textChars":15,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/apgnu1cb","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/5gr6t0vy","slide":3,"bbox":[72,142,1136,0]}
+{"kind":"shape","id":"sh/kfi50vud","slide":3,"bbox":[82,214,238,260]}
+{"kind":"textbox","id":"sh/ju9orqds","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[104,236,70,42]}
+{"kind":"textbox","id":"sh/it0nylc7","slide":3,"text":"教师上传课件","textPreview":"教师上传课件","textChars":6,"textLines":1,"bbox":[104,298,194,34]}
+{"kind":"textbox","id":"sh/lknmhwve","slide":3,"text":"PDF/PPTX 进入课堂，系统记录课件页","textPreview":"PDF/PPTX 进入课堂，系统记录课件页","textChars":21,"textLines":1,"bbox":[104,354,194,80]}
+{"kind":"textbox","id":"sh/0je5orut","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[329,314,32,32]}
+{"kind":"shape","id":"sh/21snitov","slide":3,"bbox":[367,214,238,260]}
+{"kind":"textbox","id":"sh/3214by5g","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[389,236,70,42]}
+{"kind":"textbox","id":"sh/43u5k36l","slide":3,"text":"教师控制页码","textPreview":"教师控制页码","textChars":6,"textLines":1,"bbox":[389,298,194,34]}
+{"kind":"textbox","id":"sh/p43mdon6","slide":3,"text":"上一页、输入页码、下一页，统一共享状态","textPreview":"上一页、输入页码、下一页，统一共享状态","textChars":19,"textLines":1,"bbox":[389,354,194,80]}
+{"kind":"textbox","id":"sh/q5cnmtor","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[614,314,32,32]}
+{"kind":"shape","id":"sh/r6l4fy5c","slide":3,"bbox":[652,214,238,260]}
+{"kind":"textbox","id":"sh/c7u5o36x","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[674,236,70,42]}
+{"kind":"textbox","id":"sh/ds3mh8ni","slide":3,"text":"学生跟随反馈","textPreview":"学生跟随反馈","textChars":6,"textLines":1,"bbox":[674,298,194,34]}
+{"kind":"textbox","id":"sh/ytcnqdo3","slide":3,"text":"学生看到同一页，匿名点击“这里没听懂”","textPreview":"学生看到同一页，匿名点击“这里没听懂”","textChars":19,"textLines":1,"bbox":[674,354,194,80]}
+{"kind":"textbox","id":"sh/zul4ji5o","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[899,314,32,32]}
+{"kind":"shape","id":"sh/vy547ilg","slide":3,"bbox":[937,214,238,260]}
+{"kind":"textbox","id":"sh/axw3ydkv","slide":3,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[959,236,70,42]}
+{"kind":"textbox","id":"sh/x0nm9s3m","slide":3,"text":"教师即时调整","textPreview":"教师即时调整","textChars":6,"textLines":1,"bbox":[959,298,194,34]}
+{"kind":"textbox","id":"sh/wzel0n21","slide":3,"text":"当前页上方出现反馈数量，决定重讲或复测","textPreview":"当前页上方出现反馈数量，决定重讲或复测","textChars":19,"textLines":1,"bbox":[959,354,194,80]}
+{"kind":"shape","id":"sh/nu543ylk","slide":3,"bbox":[82,548,1096,66]}
+{"kind":"textbox","id":"sh/m9c3utkz","slide":3,"text":"核心任务：让教师在讲解过程中，定位并处理学生的理解障碍。","textPreview":"核心任务：让教师在讲解过程中，定位并处理学生的理解障碍。","textChars":28,"textLines":1,"bbox":[112,565,1030,32]}
+{"kind":"notes","id":"nt/3d45y5","slide":3,"text":"来源：ClassLoop/frontend/src/components/LearningMaterialPanel.tsx；StudentPageFeedback.tsx；ParticipantView.tsx。页面展示的是已实现的课堂交互链路。"}
+{"kind":"slide","id":"sl/lr80ek","slide":4,"title":"03 · 产品界面","textShapes":11}
+{"kind":"textbox","id":"sh/gj2dcnq1","slide":4,"text":"03 · 产品界面","textPreview":"03 · 产品界面","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/fitcjipg","slide":4,"text":"教师控制一页，学生跟随一页","textPreview":"教师控制一页，学生跟随一页","textChars":13,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/ehkvad8v","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/tgbuh87a","slide":4,"bbox":[72,142,1136,0]}
+{"kind":"shape","id":"sh/sf2d83qp","slide":4,"bbox":[72,184,1136,390]}
+{"kind":"textbox","id":"sh/retcfip4","slide":4,"text":"教师端","textPreview":"教师端","textChars":3,"textLines":1,"bbox":[110,214,150,30]}
+{"kind":"shape","id":"sh/6dkv6d8j","slide":4,"bbox":[110,260,1060,76]}
+{"kind":"shape","id":"sh/5crud87e","slide":4,"bbox":[166,278,130,42]}
+{"kind":"textbox","id":"sh/4bid43qt","slide":4,"text":"上一页","textPreview":"上一页","textChars":3,"textLines":1,"bbox":[166,282,130,32]}
+{"kind":"shape","id":"sh/upw7qpgv","slide":4,"bbox":[498,274,188,50]}
+{"kind":"textbox","id":"sh/vq58juh0","slide":4,"text":"12 / 107","textPreview":"12 / 107","textChars":8,"textLines":1,"bbox":[498,283,188,32]}
+{"kind":"shape","id":"sh/wre9szyl","slide":4,"bbox":[888,278,130,42]}
+{"kind":"textbox","id":"sh/hsnqlkf6","slide":4,"text":"下一页","textPreview":"下一页","textChars":3,"textLines":1,"bbox":[888,282,130,32]}
+{"kind":"textbox","id":"sh/mlc7m5gj","slide":4,"text":"输入页码可随机访问，页码是课堂共享状态","textPreview":"输入页码可随机访问，页码是课堂共享状态","textChars":19,"textLines":1,"bbox":[350,366,580,28]}
+{"kind":"shape","id":"sh/7ml8fah4","slide":4,"bbox":[110,414,1060,112]}
+{"kind":"textbox","id":"sh/8nupofyp","slide":4,"text":"原始 PDF 页面","textPreview":"原始 PDF 页面","textChars":9,"textLines":1,"bbox":[138,434,240,28]}
+{"kind":"textbox","id":"sh/9onqhkza","slide":4,"text":"教师端控制页码，学生端不再自由滚动，避免视角错位。","textPreview":"教师端控制页码，学生端不再自由滚动，避免视角错位。","textChars":25,"textLines":1,"bbox":[138,476,900,28]}
+{"kind":"shape","id":"sh/yxc7i5gn","slide":4,"bbox":[72,604,1136,54]}
+{"kind":"textbox","id":"sh/zyl8bah8","slide":4,"text":"学生反馈绑定当前课件页，而不是脱离上下文的孤立问卷。","textPreview":"学生反馈绑定当前课件页，而不是脱离上下文的孤立问卷。","textChars":26,"textLines":1,"bbox":[104,617,1070,26]}
+{"kind":"notes","id":"nt/lr80ek","slide":4,"text":"来源：ClassLoop/frontend/src/components/LearningMaterialPanel.tsx；PresentationPage.tsx；StudentPageFeedback.tsx。界面描述基于当前实现，不代表 PPTX 原页渲染已完整支持。"}
+{"kind":"slide","id":"sl/vv30sy","slide":5,"title":"04 · 技术架构","textShapes":19}
+{"kind":"textbox","id":"sh/vqdk76dk","slide":5,"text":"04 · 技术架构","textPreview":"04 · 技术架构","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/grm1gbe5","slide":5,"text":"业务事实、教学结构与实时事件分层保存","textPreview":"业务事实、教学结构与实时事件分层保存","textChars":18,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/hsv29gvq","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/id4jilwb","slide":5,"bbox":[72,142,1136,0]}
+{"kind":"shape","id":"sh/3edkbqdw","slide":5,"bbox":[110,178,180,54]}
+{"kind":"textbox","id":"sh/4fm1kbe1","slide":5,"text":"前端","textPreview":"前端","textChars":2,"textLines":1,"bbox":[110,188,180,32]}
+{"kind":"shape","id":"sh/5gv2dgvm","slide":5,"bbox":[330,178,820,54]}
+{"kind":"textbox","id":"sh/qhojmlw7","slide":5,"text":"React + TypeScript + Vite + Tailwind CSS","textPreview":"React + TypeScript + Vite + Tailwind CSS","textChars":40,"textLines":1,"bbox":[364,188,750,32]}
+{"kind":"textbox","id":"sh/rixkfqds","slide":5,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[192,234,18,24]}
+{"kind":"shape","id":"sh/bahgnad0","slide":5,"bbox":[110,260,180,54]}
+{"kind":"textbox","id":"sh/a98ze5wv","slide":5,"text":"后端","textPreview":"后端","textChars":2,"textLines":1,"bbox":[110,270,180,32]}
+{"kind":"shape","id":"sh/xczyp0v6","slide":5,"bbox":[330,260,820,54]}
+{"kind":"textbox","id":"sh/wbqhgfel","slide":5,"text":"Python + FastAPI + Uvicorn","textPreview":"Python + FastAPI + Uvicorn","textChars":26,"textLines":1,"bbox":[364,270,750,32]}
+{"kind":"textbox","id":"sh/n6hgjqd4","slide":5,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[192,316,18,24]}
+{"kind":"shape","id":"sh/m5ozalwj","slide":5,"bbox":[110,342,180,54]}
+{"kind":"textbox","id":"sh/98zyl0va","slide":5,"text":"业务数据","textPreview":"业务数据","textChars":4,"textLines":1,"bbox":[110,352,180,32]}
+{"kind":"shape","id":"sh/o7qhcvep","slide":5,"bbox":[330,342,820,54]}
+{"kind":"textbox","id":"sh/7210vud8","slide":5,"text":"SQLite：课堂、回答、反馈、原始课件","textPreview":"SQLite：课堂、回答、反馈、原始课件","textChars":20,"textLines":1,"bbox":[364,352,750,32]}
+{"kind":"textbox","id":"sh/61szmpwn","slide":5,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[192,398,18,24]}
+{"kind":"shape","id":"sh/ixwjetgv","slide":5,"bbox":[110,424,180,54]}
+{"kind":"textbox","id":"sh/3y5knyxg","slide":5,"text":"结构关系","textPreview":"结构关系","textChars":4,"textLines":1,"bbox":[110,434,180,32]}
+{"kind":"shape","id":"sh/4ze1g3y1","slide":5,"bbox":[330,424,820,54]}
+{"kind":"textbox","id":"sh/50n2pofm","slide":5,"text":"Neo4j：课件—页面—文本块—关键词","textPreview":"Neo4j：课件—页面—文本块—关键词","textChars":19,"textLines":1,"bbox":[364,434,750,32]}
+{"kind":"textbox","id":"sh/q1wjitg7","slide":5,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[192,480,18,24]}
+{"kind":"shape","id":"sh/r25kryxs","slide":5,"bbox":[110,506,180,54]}
+{"kind":"textbox","id":"sh/s3e1k3yd","slide":5,"text":"实时通信","textPreview":"实时通信","textChars":4,"textLines":1,"bbox":[110,516,180,32]}
+{"kind":"shape","id":"sh/d472t8fi","slide":5,"bbox":[330,506,820,54]}
+{"kind":"textbox","id":"sh/65cjm9g3","slide":5,"text":"SSE：页码、广播、反馈事件","textPreview":"SSE：页码、广播、反馈事件","textChars":14,"textLines":1,"bbox":[364,516,750,32]}
+{"kind":"textbox","id":"sh/76l0fex8","slide":5,"text":"关键设计","textPreview":"关键设计","textChars":4,"textLines":1,"bbox":[110,615,130,24]}
+{"kind":"textbox","id":"sh/9wbe1w32","slide":5,"text":"Neo4j 是结构关系层，不承担账号与课堂业务事实；AI 通过 VentureAgent HTTP Adapter 接入。","textPreview":"Neo4j 是结构关系层，不承担账号与课堂业务事实；AI 通过 VentureAgent HTTP Adapter 接入。","textChars":61,"textLines":1,"bbox":[246,610,900,32]}
+{"kind":"notes","id":"nt/vv30sy","slide":5,"text":"来源：ClassLoop/backend/app/main.py；database.py；document_graph.py；backend/README.md。VentureAgent 为辅助工具，不是最终验收主体。"}
+{"kind":"slide","id":"sl/all1ch","slide":6,"title":"05 · 核心创新","textShapes":12}
+{"kind":"textbox","id":"sh/tsreloz6","slide":6,"text":"05 · 核心创新","textPreview":"05 · 核心创新","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/6pgfat0v","slide":6,"text":"把反馈尺度细化到课件页，并保持与讲解进度同步","textPreview":"把反馈尺度细化到课件页，并保持与讲解进度同步","textChars":22,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/7q9wjehg","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/gvixg3ix","slide":6,"bbox":[72,142,1136,0]}
+{"kind":"shape","id":"sh/1gryp8zi","slide":6,"bbox":[92,190,490,132]}
+{"kind":"shape","id":"sh/ut0fet0r","slide":6,"bbox":[92,190,10,132]}
+{"kind":"textbox","id":"sh/fu9wnyhc","slide":6,"text":"页级定位","textPreview":"页级定位","textChars":4,"textLines":1,"bbox":[126,214,390,30]}
+{"kind":"textbox","id":"sh/oj2xk3yt","slide":6,"text":"学生反馈自动绑定当前课件页，教师知道问题发生在哪里。","textPreview":"学生反馈自动绑定当前课件页，教师知道问题发生在哪里。","textChars":26,"textLines":1,"bbox":[126,256,410,48]}
+{"kind":"shape","id":"sh/pkbyt8ze","slide":6,"bbox":[642,190,490,132]}
+{"kind":"shape","id":"sh/98vm90fm","slide":6,"bbox":[642,190,10,132]}
+{"kind":"textbox","id":"sh/87m50vy1","slide":6,"text":"共享页码","textPreview":"共享页码","textChars":4,"textLines":1,"bbox":[676,214,390,30]}
+{"kind":"textbox","id":"sh/n6d47qxg","slide":6,"text":"教师端页码是唯一控制源，学生端跟随显示，减少视角错位。","textPreview":"教师端页码是唯一控制源，学生端跟随显示，减少视角错位。","textChars":27,"textLines":1,"bbox":[676,256,410,48]}
+{"kind":"shape","id":"sh/m5k3ylgv","slide":6,"bbox":[92,370,490,132]}
+{"kind":"shape","id":"sh/hcvmd0fi","slide":6,"bbox":[92,370,10,132]}
+{"kind":"textbox","id":"sh/wbm54vyd","slide":6,"text":"结构化上下文","textPreview":"结构化上下文","textChars":6,"textLines":1,"bbox":[126,394,390,30]}
+{"kind":"textbox","id":"sh/vad4baxs","slide":6,"text":"课件被拆成文档、页面、文本块和关键词，为后续诊断提供上下文。","textPreview":"课件被拆成文档、页面、文本块和关键词，为后续诊断提供上下文。","textChars":30,"textLines":1,"bbox":[126,436,410,48]}
+{"kind":"shape","id":"sh/a94n25g7","slide":6,"bbox":[642,370,490,132]}
+{"kind":"shape","id":"sh/dgbm1gfe","slide":6,"bbox":[642,370,10,132]}
+{"kind":"textbox","id":"sh/cf2lsbyt","slide":6,"text":"教师保留决策权","textPreview":"教师保留决策权","textChars":7,"textLines":1,"bbox":[676,394,390,30]}
+{"kind":"textbox","id":"sh/ov6d4fa1","slide":6,"text":"AI 只提供可能误区、依据和复测建议，发布前仍需教师核验。","textPreview":"AI 只提供可能误区、依据和复测建议，发布前仍需教师核验。","textChars":29,"textLines":1,"bbox":[676,436,410,48]}
+{"kind":"shape","id":"sh/pwfexkrm","slide":6,"bbox":[92,572,1040,64]}
+{"kind":"textbox","id":"sh/2tov25sv","slide":6,"text":"我们做的不是“另一个投票工具”，而是一个可定位的课堂反馈闭环。","textPreview":"我们做的不是“另一个投票工具”，而是一个可定位的课堂反馈闭环。","textChars":31,"textLines":1,"bbox":[120,588,980,28]}
+{"kind":"notes","id":"nt/all1ch","slide":6,"text":"创新表述基于当前功能机制，属于方案差异判断，不宣称对所有竞品的全面优越性。依据：ClassLoop README 与当前前后端实现。"}
+{"kind":"slide","id":"sl/y63sjk","slide":7,"title":"06 · 当前进度","textShapes":28}
+{"kind":"textbox","id":"sh/wjax4bat","slide":7,"text":"06 · 当前进度","textPreview":"06 · 当前进度","textChars":9,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/bi1gv6t8","slide":7,"text":"已经跑通课堂原型，但仍有明确边界","textPreview":"已经跑通课堂原型，但仍有明确边界","textChars":16,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/axsf21sn","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/9wjytwb2","slide":7,"bbox":[72,142,1136,0]}
+{"kind":"textbox","id":"sh/ovax0bah","slide":7,"text":"已实现","textPreview":"已实现","textChars":3,"textLines":1,"bbox":[96,182,300,30]}
+{"kind":"textbox","id":"sh/nuhgr6tw","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,232,26,26]}
+{"kind":"textbox","id":"sh/mt8fy1sr","slide":7,"text":"三端角色与权限隔离","textPreview":"三端角色与权限隔离","textChars":9,"textLines":1,"bbox":[136,232,400,28]}
+{"kind":"textbox","id":"sh/1szypwb6","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,280,26,26]}
+{"kind":"textbox","id":"sh/0rqxwral","slide":7,"text":"课堂创建、作答与 SSE","textPreview":"课堂创建、作答与 SSE","textChars":12,"textLines":1,"bbox":[136,280,400,28]}
+{"kind":"textbox","id":"sh/u14vy9g7","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,328,26,26]}
+{"kind":"textbox","id":"sh/v2dw7ehs","slide":7,"text":"PDF/PPTX 解析与 Neo4j 图谱","textPreview":"PDF/PPTX 解析与 Neo4j 图谱","textChars":21,"textLines":1,"bbox":[136,328,400,28]}
+{"kind":"textbox","id":"sh/g3md0jyd","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,376,26,26]}
+{"kind":"textbox","id":"sh/hove9ozi","slide":7,"text":"教师控制页码、学生同步显示","textPreview":"教师控制页码、学生同步显示","textChars":13,"textLines":1,"bbox":[136,376,400,28]}
+{"kind":"textbox","id":"sh/6xkvu9gv","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,424,26,26]}
+{"kind":"textbox","id":"sh/7ytw3ehg","slide":7,"text":"学生页级反馈与教师实时统计","textPreview":"学生页级反馈与教师实时统计","textChars":13,"textLines":1,"bbox":[136,424,400,28]}
+{"kind":"textbox","id":"sh/8z2dwzy1","slide":7,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[100,472,26,26]}
+{"kind":"textbox","id":"sh/t0ve54zm","slide":7,"text":"Agent 诊断接口与基线留痕表","textPreview":"Agent 诊断接口与基线留痕表","textChars":16,"textLines":1,"bbox":[136,472,400,28]}
+{"kind":"textbox","id":"sh/ytkvqpgz","slide":7,"text":"待补齐","textPreview":"待补齐","textChars":3,"textLines":1,"bbox":[680,182,300,30]}
+{"kind":"textbox","id":"sh/jutwzuhk","slide":7,"text":"○","textPreview":"○","textChars":1,"textLines":1,"bbox":[684,232,26,26]}
+{"kind":"textbox","id":"sh/nepsrqxc","slide":7,"text":"T1/T2/T3 首次基线原始证据","textPreview":"T1/T2/T3 首次基线原始证据","textChars":17,"textLines":1,"bbox":[720,232,440,28]}
+{"kind":"textbox","id":"sh/2dgbylwr","slide":7,"text":"○","textPreview":"○","textChars":1,"textLines":1,"bbox":[684,284,26,26]}
+{"kind":"textbox","id":"sh/p07at0fi","slide":7,"text":"至少 5 个真实问题案例","textPreview":"至少 5 个真实问题案例","textChars":12,"textLines":1,"bbox":[720,284,440,28]}
+{"kind":"textbox","id":"sh/ozyt0vex","slide":7,"text":"○","textPreview":"○","textChars":1,"textLines":1,"bbox":[684,336,26,26]}
+{"kind":"textbox","id":"sh/b29cvax8","slide":7,"text":"统一清理前端历史乱码","textPreview":"统一清理前端历史乱码","textChars":10,"textLines":1,"bbox":[720,336,440,28]}
+{"kind":"textbox","id":"sh/a10b25wn","slide":7,"text":"○","textPreview":"○","textChars":1,"textLines":1,"bbox":[684,388,26,26]}
+{"kind":"textbox","id":"sh/x4rux0fe","slide":7,"text":"管理员原生图谱可视化","textPreview":"管理员原生图谱可视化","textChars":10,"textLines":1,"bbox":[720,388,440,28]}
+{"kind":"textbox","id":"sh/w3it4vet","slide":7,"text":"○","textPreview":"○","textChars":1,"textLines":1,"bbox":[684,440,26,26]}
+{"kind":"textbox","id":"sh/r65sz6x4","slide":7,"text":"PPTX 原始页渲染与 OCR","textPreview":"PPTX 原始页渲染与 OCR","textChars":15,"textLines":1,"bbox":[720,440,440,28]}
+{"kind":"shape","id":"sh/q5wbq1wj","slide":7,"bbox":[96,566,1060,66]}
+{"kind":"textbox","id":"sh/gbup07uh","slide":7,"text":"诚信边界：当前演示数据不是教学效果证据，Agent 输出仍需人工核验。","textPreview":"诚信边界：当前演示数据不是教学效果证据，Agent 输出仍需人工核验。","textChars":35,"textLines":1,"bbox":[124,584,1000,28]}
+{"kind":"notes","id":"nt/y63sjk","slide":7,"text":"当前进度依据：ClassLoop/README.md；ClassLoop/项目交接与进度说明_2026-09-03.md；ClassLoop/evidence/v1_freeze/S01_freeze_gate.md。已实现与待补齐严格区分。"}
+{"kind":"slide","id":"sl/cmv3h7","slide":8,"title":"07 · 下一步","textShapes":16}
+{"kind":"textbox","id":"sh/07exw365","slide":8,"text":"07 · 下一步","textPreview":"07 · 下一步","textChars":8,"textLines":1,"bbox":[72,36,500,24]}
+{"kind":"textbox","id":"sh/z65gnipk","slide":8,"text":"下一阶段先补证据，再做智能化增强","textPreview":"下一阶段先补证据，再做智能化增强","textChars":16,"textLines":1,"bbox":[72,68,1040,58]}
+{"kind":"textbox","id":"sh/e5wfudoz","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1160,42,48,26]}
+{"kind":"shape","id":"sh/9w7yts7m","slide":8,"bbox":[72,142,1136,0]}
+{"kind":"shape","id":"sh/ovyx0n61","slide":8,"bbox":[100,176,72,60]}
+{"kind":"textbox","id":"sh/nu5gripw","slide":8,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[100,188,72,34]}
+{"kind":"textbox","id":"sh/mtwfydob","slide":8,"text":"冻结并运行 V1","textPreview":"冻结并运行 V1","textChars":8,"textLines":1,"bbox":[210,178,300,30]}
+{"kind":"textbox","id":"sh/p03eho7i","slide":8,"text":"保留版本、模型、Prompt、知识库、工具、环境和失败记录","textPreview":"保留版本、模型、Prompt、知识库、工具、环境和失败记录","textChars":29,"textLines":1,"bbox":[210,214,820,28]}
+{"kind":"shape","id":"sh/4zuxoj6x","slide":8,"bbox":[135,238,0,42]}
+{"kind":"shape","id":"sh/qx0fqlkz","slide":8,"bbox":[100,280,72,60]}
+{"kind":"textbox","id":"sh/ri9gjq1k","slide":8,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[100,292,72,34]}
+{"kind":"textbox","id":"sh/cjixsv25","slide":8,"text":"完成 T1/T2/T3","textPreview":"完成 T1/T2/T3","textChars":11,"textLines":1,"bbox":[210,282,300,30]}
+{"kind":"textbox","id":"sh/dkryl0jq","slide":8,"text":"分别完成理论学习、项目指导、项目评审首次基线","textPreview":"分别完成理论学习、项目指导、项目评审首次基线","textChars":22,"textLines":1,"bbox":[210,318,820,28]}
+{"kind":"shape","id":"sh/el0zu5kv","slide":8,"bbox":[135,342,0,42]}
+{"kind":"shape","id":"sh/zmtgna1g","slide":8,"bbox":[100,384,72,60]}
+{"kind":"textbox","id":"sh/0n2hwf21","slide":8,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[100,396,72,34]}
+{"kind":"textbox","id":"sh/lobyp0jm","slide":8,"text":"整理问题案例","textPreview":"整理问题案例","textChars":6,"textLines":1,"bbox":[210,386,300,30]}
+{"kind":"textbox","id":"sh/mpkzy5k7","slide":8,"text":"从真实运行中形成至少 5 个可复现案例，覆盖至少 2 个流程","textPreview":"从真实运行中形成至少 5 个可复现案例，覆盖至少 2 个流程","textChars":30,"textLines":1,"bbox":[210,422,820,28]}
+{"kind":"shape","id":"sh/nqtgra1s","slide":8,"bbox":[135,446,0,42]}
+{"kind":"shape","id":"sh/judgfahk","slide":8,"bbox":[100,488,72,60]}
+{"kind":"textbox","id":"sh/it4fmpgf","slide":8,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[100,500,72,34]}
+{"kind":"textbox","id":"sh/5gvyhkzq","slide":8,"text":"再进入 V2","textPreview":"再进入 V2","textChars":6,"textLines":1,"bbox":[210,490,300,30]}
+{"kind":"textbox","id":"sh/kfmxofy5","slide":8,"text":"围绕真实问题修复 Agent 路由、输出格式和证据标注","textPreview":"围绕真实问题修复 Agent 路由、输出格式和证据标注","textChars":27,"textLines":1,"bbox":[210,526,820,28]}
+{"kind":"shape","id":"sh/vqtwbaho","slide":8,"bbox":[100,602,1060,54]}
+{"kind":"textbox","id":"sh/apkfi503","slide":8,"text":"阶段目标：用可追溯证据证明 ClassLoop 的课堂反馈机制，再评估 AI 是否真正提升教师判断。","textPreview":"阶段目标：用可追溯证据证明 ClassLoop 的课堂反馈机制，再评估 AI 是否真正提升教师判断。","textChars":50,"textLines":1,"bbox":[126,616,1008,26]}
+{"kind":"notes","id":"nt/cmv3h7","slide":8,"text":"下一步安排依据：第一阶段提交说明.pdf 的 G1-G5 门槛，以及 ClassLoop/evidence/v1_freeze/S01_freeze_gate.md。此页不承诺未完成的实验结果。"}

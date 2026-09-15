@@ -46,3 +46,9 @@ PollUP/.git/
 *.pdf
 *.docx
 
+# Other project environments and caches
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/node_modules/

@@ -1,0 +1,10 @@
+[
+  {"path":"ClassLoop/backend/app/main.py","length":85724,"sha256":"DE39882A80DC09840779A1E2E1CCACC9AFEDC4F97ED406FCD28516E12E1EB827"},
+  {"path":"ClassLoop/backend/app/database.py","length":16313,"sha256":"E3833FC1C52A81E3E5A1514B6A08FAD06ACEC2C4FAFB620C2E8AEB7DBAEEB0EF"},
+  {"path":"ClassLoop/backend/requirements.txt","length":130,"sha256":"DDDE7D09F23D4AE5CE087B93096B3F3FD2CAD75066391AA17D9C7A96B8A16C47"},
+  {"path":"venture_agent/backend/app/main.py","length":71507,"sha256":"5F372E6D87E01251568BD363202422821D714F3F8149507DC76DA484E661FC3C"},
+  {"path":"venture_agent/backend/app/agent/graph.py","length":26083,"sha256":"98D366F131B4E6304B7D839172ADAA761826C4F39136B3927A488C9E14770094"},
+  {"path":"venture_agent/backend/app/agent/constraints.py","length":2108,"sha256":"141713E0FB59A0FDC2E1D8806332DF95A2D71A7346091C64AFFDC69475D4F2E8"},
+  {"path":"venture_agent/backend/app/agent/tools.py","length":1528,"sha256":"FAF337276A66B6E74DE06A598435468672A16E66DE3D0239BB29ABED05D3F552"},
+  {"path":"venture_agent/backend/requirements.txt","length":698,"sha256":"D945DF87BD337D2C260823EF7ED291F11E6295FC802A47D4DB91C2B5E2449707"}
+]
