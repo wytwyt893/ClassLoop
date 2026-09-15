@@ -1,0 +1,108 @@
+{
+  "runId": "acceptance_74859ac7-85d1-4a69-98b4-4ccbea1157f1",
+  "version": "classloop-agent-v2.2-evidence-rag",
+  "flow": "F4",
+  "flowName": "课堂证据干预",
+  "agent": "evidence_teaching_coach",
+  "promptVersion": "f4-teaching-evidence-v1",
+  "knowledgeBaseVersion": "evidence-rag-v1",
+  "standard": "internet_plus",
+  "status": "degraded",
+  "mode": "deterministic_fallback",
+  "startedAt": 1789492659648.6902,
+  "finishedAt": 1789492659650.6953,
+  "durationMs": 2.0,
+  "input": "根据课堂课件判断共同误区并设计干预复测",
+  "retrieval": {
+    "query": "根据课堂课件判断共同误区并设计干预复测",
+    "strategy": "zh-bigram-keyword-v1",
+    "candidates": 1,
+    "topK": 3,
+    "hits": [
+      {
+        "id": "p3",
+        "title": "第3页",
+        "sourceType": "provided",
+        "locator": "demo.pdf / 第3页",
+        "sourceUrl": "",
+        "score": 0.0535,
+        "matchedTerms": [
+          "课堂"
+        ],
+        "excerpt": "页级匿名反馈保留课堂上下文，教师据此调整讲解",
+        "citation": "[E1]"
+      }
+    ],
+    "latencyMs": 0.949
+  },
+  "citations": [
+    "[E1]"
+  ],
+  "prompt": "你是 ClassLoop Agent classloop-agent-v2.2-evidence-rag 的课堂证据干预角色。\n只能依据用户输入回答；不得编造用户反馈、市场数字、人物故事、引用或运行结果。\n所有关键判断必须以前缀 [F]事实、[I]推断、[H]假设、[S]模拟 标记。\n没有来源时写“未提供可核验来源”；模拟内容不得作为事实证据。\n输出应具体、简洁、可执行，并在结尾单列“证据边界”和“当前局限”。\n\n完成课堂证据干预流程：\n1. 只分析匿名课堂数据，不推断具体学生身份或能力；\n2. 给出“可能的共同误区—引用证据—教师干预动作—一道复测题”；\n3. 清楚区分观察事实与教学推断，证据不足时写“不足以判断”；\n4. 给出下一次应采集的数据，形成可复测闭环。\n\n【可核验证据】\n[E1] 第3页｜定位：demo.pdf / 第3页｜内容：页级匿名反馈保留课堂上下文，教师据此调整讲解\n凡使用上述材料作判断，必须紧跟对应 [E1]/[E2]/[E3] 引用；没有材料支持时明确写证据不足。\n\n【用户输入】\n根据课堂课件判断共同误区并设计干预复测",
+  "performance": {
+    "retrievalMs": 0.949,
+    "modelMs": 0.0,
+    "cacheHit": false,
+    "savedModelCalls": 0,
+    "totalMs": 2.0
+  },
+  "reply": "## 可能的共同误区\n[I] 根据当前输入“根据课堂课件判断共同误区并设计干预复测”，学生可能在概念边界或因果关系上发生混淆；若没有回答或反馈样本，则不足以判断。\n\n## 引用证据\n[F] 本次只引用调用方提供的课件页、匿名反馈和课堂回答；可在 retrieval.hits 中按 [E1] 等编号复核。\n\n## 教师干预\n先用一句话重述概念边界，再给一个最小反例，请学生解释反例在哪个条件上不成立。\n\n## 复测题\n请用“对象—场景—因果—验证”四项重写当前结论，并指出其中哪一项仍缺证据？\n\n## 证据边界\n- [F] 根据课堂课件判断共同误区并设计干预复测\n- [H] 输入中的价值与效果陈述仍需真实用户或运行数据验证。\n- [S] 本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。\n\n## 当前局限\n- 匿名聚合数据不能用于判断单个学生能力。\n- 没有课件或回答证据时仅能输出条件性建议。",
+  "sections": [
+    {
+      "title": "可能的共同误区",
+      "content": "[I] 根据当前输入“根据课堂课件判断共同误区并设计干预复测”，学生可能在概念边界或因果关系上发生混淆；若没有回答或反馈样本，则不足以判断。"
+    },
+    {
+      "title": "引用证据",
+      "content": "[F] 本次只引用调用方提供的课件页、匿名反馈和课堂回答；可在 retrieval.hits 中按 [E1] 等编号复核。"
+    },
+    {
+      "title": "教师干预",
+      "content": "先用一句话重述概念边界，再给一个最小反例，请学生解释反例在哪个条件上不成立。"
+    },
+    {
+      "title": "复测题",
+      "content": "请用“对象—场景—因果—验证”四项重写当前结论，并指出其中哪一项仍缺证据？"
+    }
+  ],
+  "claims": [
+    {
+      "tag": "F",
+      "label": "输入事实",
+      "text": "根据课堂课件判断共同误区并设计干预复测"
+    },
+    {
+      "tag": "H",
+      "label": "待验证假设",
+      "text": "输入中的价值与效果陈述仍需真实用户或运行数据验证。"
+    },
+    {
+      "tag": "S",
+      "label": "演示边界",
+      "text": "本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。"
+    }
+  ],
+  "rubric": null,
+  "nextActions": [
+    "记录干预前回答",
+    "实施最小干预",
+    "用同一道复测题比较变化"
+  ],
+  "limitations": [
+    "匿名聚合数据不能用于判断单个学生能力。",
+    "没有课件或回答证据时仅能输出条件性建议。"
+  ],
+  "error": "本次测试显式关闭真实模型，用于验证离线降级和日志留痕。",
+  "manualIntervention": [],
+  "validation": {
+    "passed": false,
+    "checks": {
+      "liveModelRequested": false
+    },
+    "failedChecks": [
+      "liveModelDisabled"
+    ]
+  },
+  "modeLabel": "结构化降级",
+  "rawLogPath": "venture_agent/evidence/runtime_logs/acceptance_74859ac7-85d1-4a69-98b4-4ccbea1157f1.json"
+}

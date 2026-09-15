@@ -227,6 +227,31 @@ CREATE TABLE IF NOT EXISTS agent_diagnoses (
 CREATE INDEX IF NOT EXISTS idx_agent_diagnoses_session
     ON agent_diagnoses(session_id, created_at DESC);
 
+-- Product Agent audit trail shared by student tutor, teacher intervention and
+-- future product flows. It intentionally stores anonymous actor roles only.
+CREATE TABLE IF NOT EXISTS agent_product_runs (
+    id TEXT PRIMARY KEY,
+    session_id TEXT REFERENCES class_sessions(id) ON DELETE SET NULL,
+    actor_role TEXT NOT NULL,
+    flow TEXT NOT NULL,
+    agent_name TEXT,
+    agent_version TEXT,
+    status TEXT NOT NULL,
+    mode TEXT,
+    input_json TEXT NOT NULL,
+    output_json TEXT,
+    retrieval_json TEXT,
+    citations_json TEXT,
+    venture_run_id TEXT,
+    error TEXT,
+    duration_ms REAL,
+    created_at REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_agent_product_runs_created
+    ON agent_product_runs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_agent_product_runs_session
+    ON agent_product_runs(session_id, created_at DESC);
+
 -- 验收基线运行留痕：与课堂页面诊断 agent_diagnoses 分离，专门保存
 -- T1/T2/T3 首次运行及后续复现记录。该表只记录运行证据，不改变 Agent 行为。
 CREATE TABLE IF NOT EXISTS agent_baseline_runs (

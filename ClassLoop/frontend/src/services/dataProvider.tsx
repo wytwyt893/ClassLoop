@@ -86,12 +86,14 @@ export const api = {
     getStatus: ref("agent.getStatus"),
     getDiagnoses: ref("agent.getDiagnoses"),
     diagnose: ref("agent.diagnose"),
+    explainCurrentPage: ref("agent.explainCurrentPage"),
   },
   admin: {
     getOverview: ref("admin.getOverview"),
     getGraphStatus: ref("admin.getGraphStatus"),
     getDocuments: ref("admin.getDocuments"),
     getDocumentGraph: ref("admin.getDocumentGraph"),
+    getAgentRuns: ref("admin.getAgentRuns"),
   },
 };
 
@@ -275,6 +277,7 @@ export function ApiDataProvider({ children }: { children: ReactNode }) {
       case "classroom.submitPageFeedback": path = `/api/public/sessions/${id(args.sessionId)}/page-feedback`; anonymous = true; break;
       case "classroom.updatePageFeedbackStatus": path = `/api/sessions/${id(args.sessionId)}/page-feedback/${id(args.feedbackId)}`; method = "PATCH"; body = { status: args.status }; break;
       case "agent.diagnose": path = `/api/sessions/${id(args.sessionId)}/agent/diagnose`; body = undefined; break;
+      case "agent.explainCurrentPage": path = `/api/public/sessions/${id(args.sessionId)}/agent/explain`; anonymous = true; body = { participantId: args.participantId, question: args.question }; break;
       default: throw new Error(`Unknown API mutation: ${reference.key}`);
     }
     const result = await request(path, {
@@ -330,6 +333,7 @@ async function runQuery(request: ContextValue["request"], reference: FunctionRef
     case "admin.getGraphStatus": return request("/api/admin/graph/status");
     case "admin.getDocuments": return request("/api/admin/documents");
     case "admin.getDocumentGraph": return request(`/api/admin/documents/${id(args.documentId)}/graph`);
+    case "admin.getAgentRuns": return request("/api/admin/agent-runs");
     default: throw new Error(`Unknown API query: ${reference.key}`);
   }
 }

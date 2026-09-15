@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Id } from "../services/types";
 import { LessonContextBar } from "./LessonContextBar";
 import { StudentPageFeedback } from "./StudentPageFeedback";
+import { StudentAiTutorPanel } from "./StudentAiTutorPanel";
 import { PresentationPage } from "./PresentationPage";
 
 // Helper function to render text with clickable links
@@ -354,6 +355,7 @@ export function ParticipantView() {
         <div className="max-w-2xl mx-auto px-4">
             {latestBroadcast && <div className="mb-4 rounded-2xl border border-blue-200 bg-blue-50 p-4 text-left text-sm text-blue-950"><span className="font-black">教师实时提示：</span>{latestBroadcast.message}</div>}
           <StudentPageFeedback sessionId={session._id} participantId={participantId} presentation={presentation} />
+          <StudentAiTutorPanel sessionId={session._id} participantId={participantId} presentation={presentation} />
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
             {session.completionImageUrl && (
               <div className="mb-6 flex justify-center">
@@ -452,6 +454,7 @@ export function ParticipantView() {
         <div className="mx-auto w-full max-w-3xl">
           <LessonContextBar sessionCode={sessionCode} />
           <StudentPageFeedback sessionId={session._id} participantId={participantId} presentation={presentation} />
+          <StudentAiTutorPanel sessionId={session._id} participantId={participantId} presentation={presentation} />
           <div className="mb-4 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs text-slate-500">
             <span>{liveEvents.isConnected ? "● 已连接课堂实时通道" : "● 实时通道重连中，系统将自动补偿同步"}</span>
             <span className={liveEvents.isConnected ? "text-emerald-600" : "text-amber-600"}>{liveEvents.isConnected ? "实时" : "轮询兜底"}</span>

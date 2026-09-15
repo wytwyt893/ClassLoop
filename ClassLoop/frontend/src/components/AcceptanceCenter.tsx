@@ -74,7 +74,7 @@ function ProjectStation() {
     ["第一阶段 V1", "完成项目定位和 Agent 基线，发现启动阻断、角色误路由、证据混淆等真实问题。"],
     ["产品闭环", "补齐三角色入口、数据库持久化、学生作答、SSE 实时刷新与教师广播。"],
     ["课堂上下文", "把反馈绑定到具体课件页，并建立课堂—文档—页面—文本块的 Neo4j 图谱。"],
-    ["最终 V2.1", "分离 F1/F2/F3 角色、加入协议校验、明确降级状态、run_id 和原始日志。"],
+    ["产品 V2.2", "在 F1/F2/F3 基础上新增 F4 教学干预、课件 RAG、引用校验、重复请求缓存和三端审计。"],
   ];
   return (
     <div className="space-y-6">
@@ -178,7 +178,7 @@ function AgentStation() {
   return (
     <div className="space-y-6">
       <section className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-4"><div><div className="flex flex-wrap gap-2"><Tag tone="violet">最终版本 V2.1</Tag><Tag tone={serviceStatus?.reachable ? "green" : "amber"}>{serviceStatus?.reachable ? "VentureAgent 已连接" : serviceStatus?.configured ? "地址已配 / 服务未连接" : "等待完整模式"}</Tag></div><h2 className="mt-4 text-3xl font-black">三个核心流程，一个随机抽测入口</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{serviceStatus?.message || "正在检查 Agent 适配器…"}</p></div><div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-right"><p className="text-xs text-slate-400">版本</p><p className="mt-1 font-mono text-sm font-black text-cyan-300">classloop-agent-v2.1-acceptance</p></div></div>
+        <div className="flex flex-wrap items-start justify-between gap-4"><div><div className="flex flex-wrap gap-2"><Tag tone="violet">产品版本 V2.2</Tag><Tag tone={serviceStatus?.reachable ? "green" : "amber"}>{serviceStatus?.reachable ? "VentureAgent 已连接" : serviceStatus?.configured ? "地址已配 / 服务未连接" : "等待完整模式"}</Tag></div><h2 className="mt-4 text-3xl font-black">三个验收流程 + 一个课堂干预 Agent</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{serviceStatus?.message || "正在检查 Agent 适配器…"} 学生端与教师端现已使用证据检索和引用追溯，管理员端可查看运行与性能。</p></div><div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-right"><p className="text-xs text-slate-400">版本</p><p className="mt-1 font-mono text-sm font-black text-cyan-300">classloop-agent-v2.2-evidence-rag</p></div></div>
         <div className="mt-7 grid gap-3 md:grid-cols-3">
           {(Object.keys(flowMeta) as Flow[]).map((key) => <button key={key} onClick={() => selectFlow(key)} className={`rounded-2xl border p-4 text-left transition ${flow === key ? "border-cyan-300 bg-cyan-300 text-slate-950" : "border-white/10 bg-white/5 hover:bg-white/10"}`}><p className="text-xs font-black">{key} · {flowMeta[key].role}</p><h3 className="mt-2 text-xl font-black">{flowMeta[key].name}</h3><p className={`mt-2 text-xs leading-5 ${flow === key ? "text-slate-700" : "text-slate-400"}`}>{flowMeta[key].promise}</p></button>)}
         </div>

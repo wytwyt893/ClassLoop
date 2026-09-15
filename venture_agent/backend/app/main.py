@@ -11,6 +11,7 @@ import sqlite3
 import datetime
 import json
 import re
+import time
 from typing import Optional, List, Literal
 from pydantic import BaseModel, Field
 import httpx
@@ -53,9 +54,12 @@ from app.acceptance import (
     KNOWLEDGE_BASE_VERSION as ACCEPTANCE_KB_VERSION,
     RUBRICS as ACCEPTANCE_RUBRICS,
     finish_run as finish_acceptance_run,
+    get_cached_reply,
     list_runs as list_acceptance_runs,
     new_run_record as new_acceptance_run,
     persist_run as persist_acceptance_run,
+    retrieve_evidence,
+    set_cached_reply,
     validate_live_reply,
 )
 
@@ -282,10 +286,19 @@ class ReviewRequest(BaseModel):
 
 
 class AcceptanceRunRequest(BaseModel):
-    flow: Literal["F1", "F2", "F3"]
+    flow: Literal["F1", "F2", "F3", "F4"]
     input: str = Field(min_length=6, max_length=12000)
     standard: Literal["challenge_cup", "internet_plus"] = "internet_plus"
     prefer_live_model: bool = True
+    evidence_items: List[dict] = Field(default_factory=list, max_length=50)
+    top_k: int = Field(default=3, ge=1, le=5)
+    use_cache: bool = True
+
+
+class EvidenceRetrieveRequest(BaseModel):
+    query: str = Field(min_length=2, max_length=4000)
+    evidence_items: List[dict] = Field(default_factory=list, max_length=100)
+    top_k: int = Field(default=3, ge=1, le=5)
 
 class UpdateContentRequest(BaseModel):
     content: str
@@ -545,15 +558,32 @@ def acceptance_meta():
 
 @app.post("/api/acceptance/run")
 async def run_acceptance_agent(request: AcceptanceRunRequest):
-    """Run F1/F2/F3 with a versioned prompt, protocol checks and visible fallback.
+    """Run F1-F4 with evidence retrieval, protocol checks and visible fallback.
 
     Every attempt gets a run_id and raw JSON record. A model outage or protocol
     failure is returned as ``degraded`` rather than being presented as success.
     """
-    record = new_acceptance_run(request.flow, request.input, request.standard)
+    record = new_acceptance_run(
+        request.flow,
+        request.input,
+        request.standard,
+        request.evidence_items,
+        request.top_k,
+    )
 
     if request.prefer_live_model:
         try:
+            cached_reply = get_cached_reply(record) if request.use_cache else None
+            if cached_reply:
+                record["reply"] = cached_reply
+                record["performance"].update({"cacheHit": True, "savedModelCalls": 1})
+                record["validation"] = validate_live_reply(
+                    request.flow, cached_reply, record["retrieval"]["hits"]
+                )
+                finish_acceptance_run(record, status="completed", mode="live_model_cache")
+                persist_acceptance_run(record)
+                return record
+
             from app.agent.graph import get_llm
 
             def invoke_model():
@@ -563,8 +593,10 @@ async def run_acceptance_agent(request: AcceptanceRunRequest):
                     return "".join(str(part) for part in content)
                 return str(content)
 
+            model_started = time.perf_counter()
             live_reply = (await asyncio.to_thread(invoke_model)).strip()
-            validation = validate_live_reply(request.flow, live_reply)
+            record["performance"]["modelMs"] = round((time.perf_counter() - model_started) * 1000, 1)
+            validation = validate_live_reply(request.flow, live_reply, record["retrieval"]["hits"])
             record["validation"] = validation
             if not validation["passed"]:
                 failed = ", ".join(validation["failedChecks"])
@@ -576,6 +608,7 @@ async def run_acceptance_agent(request: AcceptanceRunRequest):
                 )
             else:
                 record["reply"] = live_reply
+                record["performance"]["cacheKey"] = set_cached_reply(record, live_reply)
                 finish_acceptance_run(record, status="completed", mode="live_model")
         except Exception as error:
             record["validation"] = {"passed": False, "checks": {}, "failedChecks": ["modelInvocation"]}
@@ -600,6 +633,12 @@ async def run_acceptance_agent(request: AcceptanceRunRequest):
 
     persist_acceptance_run(record)
     return record
+
+
+@app.post("/api/evidence/retrieve")
+def inspect_evidence_retrieval(request: EvidenceRetrieveRequest):
+    """Expose deterministic retrieval results so tests and reviewers can reproduce ranking."""
+    return retrieve_evidence(request.query, request.evidence_items, request.top_k)
 
 
 @app.get("/api/acceptance/runs")

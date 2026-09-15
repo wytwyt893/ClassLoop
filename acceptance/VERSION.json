@@ -8,16 +8,19 @@
     "evidence": "ClassLoop/evidence/v1_freeze/S02_v1_final_freeze.md"
   },
   "final": {
-    "version": "classloop-agent-v2.1-acceptance",
-    "implementationCommit": "3dfdc5d651ba96ea6a216c9ede8c4fa29d23c466",
+    "version": "classloop-agent-v2.2-evidence-rag",
+    "implementationCommit": "TO_BE_RECORDED_AFTER_COMMIT",
     "entry": "http://127.0.0.1:5173/acceptance",
     "api": "http://127.0.0.1:8140/api/acceptance/run",
     "flows": {
-      "F1": {"agent": "learning_tutor", "promptVersion": "f1-tutor-v2.1"},
-      "F2": {"agent": "project_coach", "promptVersion": "f2-coach-v2.1"},
-      "F3": {"agent": "project_reviewer", "promptVersion": "f3-reviewer-v2.1"}
+      "F1": {"agent": "learning_tutor", "promptVersion": "f1-tutor-evidence-v2.2"},
+      "F2": {"agent": "project_coach", "promptVersion": "f2-coach-evidence-v2.2"},
+      "F3": {"agent": "project_reviewer", "promptVersion": "f3-reviewer-evidence-v2.2"},
+      "F4": {"agent": "evidence_teaching_coach", "promptVersion": "f4-teaching-evidence-v1"}
     },
-    "knowledgeBaseVersion": "none-explicit-source-boundary",
+    "knowledgeBaseVersion": "evidence-rag-v1",
+    "retrievalStrategy": "zh-bigram-keyword-v1",
+    "cacheTtlSeconds": 600,
     "logDirectory": "venture_agent/evidence/runtime_logs"
   }
 }

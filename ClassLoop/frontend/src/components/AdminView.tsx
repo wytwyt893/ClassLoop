@@ -169,22 +169,37 @@ function GraphCanvas({ graph, pageNumber }: { graph: { nodes: GraphNode[]; edges
 
 function RelationalDatabasePanel() {
   const overview = useQuery(api.admin.getOverview) as any;
-  const [tab, setTab] = useState<"teachers" | "classes" | "questions">("teachers");
+  const agentAudit = useQuery(api.admin.getAgentRuns) as any;
+  const [tab, setTab] = useState<"teachers" | "classes" | "questions" | "agent">("teachers");
   const cards = overview ? [
     ["教师账号", overview.counts.teachers, "👩‍🏫"], ["课堂", overview.counts.classes, "🏫"],
     ["题目", overview.counts.questions, "📝"], ["回答", overview.counts.responses, "💬"],
     ["课件", overview.counts.documents, "📚"], ["页级反馈", overview.counts.pageFeedback || 0, "🙋"],
-    ["Agent诊断", overview.counts.agentDiagnoses || 0, "🧠"], ["临时在线", overview.counts.liveParticipants, "🟢"],
+    ["教师诊断", overview.counts.agentDiagnoses || 0, "🧠"], ["Agent审计", overview.counts.agentProductRuns || 0, "🔎"],
+    ["临时在线", overview.counts.liveParticipants, "🟢"],
   ] : [];
   if (!overview) return <div className="rounded-2xl bg-white p-10 text-center text-slate-500">正在读取 SQLite 数据库…</div>;
   return <>
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">{cards.map(([name, value, icon]) => <div key={String(name)} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><span className="text-2xl">{icon}</span><p className="mt-4 text-3xl font-black">{value}</p><p className="mt-1 text-sm text-slate-500">{name}</p></div>)}</div>
     <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex gap-2 border-b border-slate-200 p-4">{([['teachers','教师账号'],['classes','课堂信息'],['questions','题目信息']] as const).map(([key,name]) => <button key={key} onClick={() => setTab(key)} className={`rounded-xl px-4 py-2 text-sm font-bold ${tab === key ? "bg-slate-950 text-white" : "text-slate-500 hover:bg-slate-100"}`}>{name}</button>)}</div>
+      <div className="flex flex-wrap gap-2 border-b border-slate-200 p-4">{([['teachers','教师账号'],['classes','课堂信息'],['questions','题目信息'],['agent','Agent 运行审计']] as const).map(([key,name]) => <button key={key} onClick={() => setTab(key)} className={`rounded-xl px-4 py-2 text-sm font-bold ${tab === key ? "bg-slate-950 text-white" : "text-slate-500 hover:bg-slate-100"}`}>{name}</button>)}</div>
       <div className="overflow-x-auto">
         {tab === "teachers" && <table className="w-full min-w-[720px] text-left text-sm"><thead className="bg-slate-50 text-xs uppercase text-slate-500"><tr><th className="p-4">教师</th><th className="p-4">唯一邮箱</th><th className="p-4">课堂数</th><th className="p-4">创建时间</th></tr></thead><tbody>{overview.teachers.map((row:any) => <tr key={row.id} className="border-t border-slate-100"><td className="p-4 font-bold">{row.name}</td><td className="p-4 font-mono text-xs">{row.email}</td><td className="p-4">{row.classCount}</td><td className="p-4 text-slate-500">{new Date(row.createdAt).toLocaleString()}</td></tr>)}</tbody></table>}
         {tab === "classes" && <table className="w-full min-w-[900px] text-left text-sm"><thead className="bg-slate-50 text-xs uppercase text-slate-500"><tr><th className="p-4">课堂</th><th className="p-4">课堂码</th><th className="p-4">教师</th><th className="p-4">题目</th><th className="p-4">回答</th><th className="p-4">状态</th></tr></thead><tbody>{overview.classes.map((row:any) => <tr key={row.id} className="border-t border-slate-100"><td className="p-4 font-bold">{row.title}</td><td className="p-4 font-mono">{row.sessionCode}</td><td className="p-4"><span className="font-semibold">{row.teacherName}</span><br /><span className="text-xs text-slate-500">{row.teacherEmail}</span></td><td className="p-4">{row.questionCount}</td><td className="p-4">{row.responseCount}</td><td className="p-4"><span className={`rounded-full px-2 py-1 text-xs font-bold ${row.isActive ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>{row.isActive ? "开放" : "暂停"}</span></td></tr>)}</tbody></table>}
         {tab === "questions" && <table className="w-full min-w-[900px] text-left text-sm"><thead className="bg-slate-50 text-xs uppercase text-slate-500"><tr><th className="p-4">题目</th><th className="p-4">所属课堂</th><th className="p-4">类型</th><th className="p-4">回答数</th><th className="p-4">状态</th></tr></thead><tbody>{overview.questions.map((row:any) => <tr key={row.id} className="border-t border-slate-100"><td className="max-w-md p-4 font-semibold">{row.title}</td><td className="p-4">{row.classTitle}<br /><span className="font-mono text-xs text-slate-500">#{row.sessionCode}</span></td><td className="p-4">{questionLabels[row.type] || row.type}</td><td className="p-4">{row.responseCount}</td><td className="p-4">{row.isActive ? "启用" : "停用"}</td></tr>)}</tbody></table>}
+        {tab === "agent" && <div className="min-w-[980px]">
+          <div className="grid grid-cols-5 gap-3 bg-violet-50 p-4 text-center text-xs text-slate-600">
+            <div><strong className="block text-xl text-slate-900">{agentAudit?.summary?.total || 0}</strong>总调用</div>
+            <div><strong className="block text-xl text-emerald-700">{agentAudit?.summary?.completed || 0}</strong>真实完成</div>
+            <div><strong className="block text-xl text-amber-700">{agentAudit?.summary?.degraded || 0}</strong>明确降级</div>
+            <div><strong className="block text-xl text-violet-700">{agentAudit?.summary?.cacheHitsInView || 0}</strong>缓存命中</div>
+            <div><strong className="block text-xl text-blue-700">{Math.round(agentAudit?.summary?.averageMs || 0)} ms</strong>平均耗时</div>
+          </div>
+          <table className="w-full text-left text-sm"><thead className="bg-slate-50 text-xs uppercase text-slate-500"><tr><th className="p-4">时间 / run_id</th><th className="p-4">角色与 Agent</th><th className="p-4">结果</th><th className="p-4">证据</th><th className="p-4">性能</th></tr></thead><tbody>
+            {(agentAudit?.items || []).map((row:any) => <tr key={row.id} className="border-t border-slate-100"><td className="p-4"><span className="text-xs text-slate-500">{new Date(row.createdAt).toLocaleString()}</span><br /><code className="text-[10px] text-slate-400">{row.runId || row.id}</code></td><td className="p-4"><strong>{row.actorRole === "student" ? "学生辅导" : "教师干预"}</strong><br /><span className="text-xs text-slate-500">{row.agent} · {row.flow}</span></td><td className="p-4"><span className={`rounded-full px-2 py-1 text-xs font-bold ${row.status === "completed" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>{row.status}</span><br /><span className="mt-2 inline-block text-xs text-slate-500">{row.mode}</span></td><td className="p-4"><strong>{row.evidenceHits}</strong> 条命中<br /><span className="text-xs text-violet-600">{(row.citations || []).join(" · ") || "无引用"}</span></td><td className="p-4"><strong>{Math.round(row.durationMs || 0)} ms</strong><br /><span className="text-xs text-slate-500">{row.cacheHit ? "已复用缓存，省 1 次模型调用" : "未命中缓存"}</span></td></tr>)}
+            {agentAudit?.items?.length === 0 && <tr><td colSpan={5} className="p-10 text-center text-slate-500">学生或教师运行一次 AI 功能后，这里会出现可核查记录。</td></tr>}
+          </tbody></table>
+        </div>}
       </div>
     </div>
   </>;

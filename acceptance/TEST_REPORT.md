@@ -1,7 +1,23 @@
 # 最终版本回归测试报告
 
 测试日期：2026-09-16  
-目标版本：`classloop-agent-v2.1-acceptance`
+目标版本：`classloop-agent-v2.2-evidence-rag`（保留下方 V2.1 基线记录）
+
+## V2.2 产品/RAG增量测试（2026-09-16）
+
+| 测试 | 结果 |
+|---|---|
+| VentureAgent 单元测试 | 8/8 通过，覆盖 F4、检索排序、引用门禁、缓存 |
+| ClassLoop 产品 Agent 单元测试 | 2/2 通过，覆盖课件定位与每人每分钟 8 次限流 |
+| Python 语法编译 | VentureAgent 与 ClassLoop 后端通过 |
+| ClassLoop 前端 lint/typecheck/build | 通过，Vite 112 modules |
+| 独立 DeepSeek RAG / 重复缓存 | 8,215.3 ms / 0.0 ms，第二次节省 1 次模型调用 |
+| 学生课堂端到端 / 重复缓存 | 7,546.1 ms / 0.0 ms，均命中 3 条课件证据 |
+| 教师 F4 端到端 / 重复缓存 | 8,563.7 ms / 1.0 ms，`evidence_teaching_coach` |
+| 管理员审计接口 | 可读取 actorRole、Agent版本、状态、模式、证据数、引用、缓存与耗时 |
+| 学生接口身份保护 | 无有效临时课堂身份返回 HTTP 401 |
+
+完整功能、日志编号与测试边界见 `acceptance/ITERATION_V2_2_PRODUCT_RAG.md`。
 
 ## 自动测试结果
 

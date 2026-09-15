@@ -28,6 +28,8 @@ LIVE_PARTICIPANTS: dict[tuple[str, str], dict[str, Any]] = {}
 LIVE_PARTICIPANTS_LOCK = Lock()
 SESSION_EVENT_SUBSCRIBERS: dict[str, set[asyncio.Queue[dict[str, Any]]]] = {}
 SESSION_EVENT_SUBSCRIBERS_LOCK = Lock()
+PUBLIC_AGENT_REQUESTS: dict[tuple[str, str], list[float]] = {}
+PUBLIC_AGENT_REQUESTS_LOCK = Lock()
 
 
 def now_ms() -> float:
@@ -36,6 +38,18 @@ def now_ms() -> float:
 
 def make_id(prefix: str) -> str:
     return f"{prefix}_{uuid.uuid4()}"
+
+
+def enforce_public_agent_rate_limit(session_id: str, participant_id: str) -> None:
+    """Protect the paid model endpoint: at most eight learner calls per minute."""
+    current = time.time()
+    key = (session_id, participant_id)
+    with PUBLIC_AGENT_REQUESTS_LOCK:
+        recent = [value for value in PUBLIC_AGENT_REQUESTS.get(key, []) if current - value < 60]
+        if len(recent) >= 8:
+            raise HTTPException(status_code=429, detail="AI 追问过于频繁，请一分钟后再试")
+        recent.append(current)
+        PUBLIC_AGENT_REQUESTS[key] = recent
 
 
 async def publish_session_event(session_id: str, event_type: str, data: dict[str, Any] | None = None) -> None:
@@ -262,6 +276,85 @@ def call_venture_acceptance(payload_value: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def presentation_evidence(connection: sqlite3.Connection, state: dict[str, Any], include_neighbors: bool = True) -> list[dict[str, Any]]:
+    """Build source-locatable evidence from parsed slide chunks, never student identity."""
+    page_number = int(state["pageNumber"])
+    lower = max(1, page_number - 1) if include_neighbors else page_number
+    upper = page_number + 1 if include_neighbors else page_number
+    rows = connection.execute(
+        """SELECT p.page_number,p.title AS page_title,c.chunk_index,c.text_content
+           FROM document_pages p LEFT JOIN document_chunks c ON c.page_id=p.id
+           WHERE p.document_id=? AND p.page_number BETWEEN ? AND ?
+           ORDER BY ABS(p.page_number-?),p.page_number,c.chunk_index LIMIT 24""",
+        (state["documentId"], lower, upper, page_number),
+    ).fetchall()
+    items = [
+        {
+            "id": f"page-{row['page_number']}-chunk-{row['chunk_index'] or 0}",
+            "title": f"{state['filename']} 第 {row['page_number']} 页：{row['page_title'] or '未命名页'}",
+            "content": row["text_content"] or "",
+            "sourceType": "courseware_chunk",
+            "locator": f"{state['filename']} / 第 {row['page_number']} 页 / 文本块 {row['chunk_index'] or 0}",
+        }
+        for row in rows
+        if str(row["text_content"] or "").strip()
+    ]
+    if not items and str(state.get("pageText", "")).strip():
+        items.append(
+            {
+                "id": f"page-{page_number}",
+                "title": f"{state['filename']} 第 {page_number} 页",
+                "content": str(state["pageText"])[:8000],
+                "sourceType": "courseware_page",
+                "locator": f"{state['filename']} / 第 {page_number} 页",
+            }
+        )
+    return items
+
+
+def save_product_agent_run(
+    *,
+    session_id: str | None,
+    actor_role: str,
+    flow: str,
+    request_input: dict[str, Any],
+    result: dict[str, Any] | None,
+    error: str | None = None,
+) -> str:
+    """Persist an anonymous, reviewer-readable trace for product Agent calls."""
+    local_id = make_id("agent_run")
+    with connect() as connection:
+        connection.execute(
+            """INSERT INTO agent_product_runs(
+                   id,session_id,actor_role,flow,agent_name,agent_version,status,mode,input_json,
+                   output_json,retrieval_json,citations_json,venture_run_id,error,duration_ms,created_at
+               ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                local_id,
+                session_id,
+                actor_role,
+                flow,
+                (result or {}).get("agent"),
+                (result or {}).get("version"),
+                (result or {}).get("status", "failed"),
+                (result or {}).get("mode"),
+                encode_json(request_input),
+                encode_json({
+                    "reply": (result or {}).get("reply"),
+                    "validation": (result or {}).get("validation"),
+                    "performance": (result or {}).get("performance", {}),
+                }),
+                encode_json((result or {}).get("retrieval", {})),
+                encode_json((result or {}).get("citations", [])),
+                (result or {}).get("runId"),
+                error or (result or {}).get("error"),
+                (result or {}).get("durationMs"),
+                now_ms(),
+            ),
+        )
+    return local_id
+
+
 def create_access_token(connection: sqlite3.Connection, user_id: str) -> str:
     token = new_token()
     ttl_hours = int(os.getenv("CLASSLOOP_TOKEN_TTL_HOURS", "168"))
@@ -461,10 +554,10 @@ def acceptance_status() -> dict[str, Any]:
         "reachable": reachable,
         "provider": settings["provider"],
         "model": settings["model"],
-        "version": upstream_version or "classloop-agent-v2.1-acceptance",
+        "version": upstream_version or "classloop-agent-v2.2-evidence-rag",
         "error": error_text,
         "message": (
-            "VentureAgent 已连接，可运行 F1/F2/F3"
+            "VentureAgent 已连接，可运行 F1/F2/F3/F4 与证据检索"
             if reachable
             else "VentureAgent 地址已配置但服务未连接，请使用完整模式重启"
             if settings["configured"]
@@ -479,8 +572,8 @@ async def proxy_acceptance_run(request: Request) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise HTTPException(status_code=422, detail="请求体必须是 JSON 对象")
     flow = str(payload.get("flow", "")).upper()
-    if flow not in {"F1", "F2", "F3"}:
-        raise HTTPException(status_code=422, detail="flow 必须是 F1、F2 或 F3")
+    if flow not in {"F1", "F2", "F3", "F4"}:
+        raise HTTPException(status_code=422, detail="flow 必须是 F1、F2、F3 或 F4")
     user_input = str(payload.get("input", "")).strip()
     if len(user_input) < 6:
         raise HTTPException(status_code=422, detail="测试输入至少需要 6 个字符")
@@ -492,6 +585,9 @@ async def proxy_acceptance_run(request: Request) -> dict[str, Any]:
         "input": user_input,
         "standard": standard,
         "prefer_live_model": bool(payload.get("prefer_live_model", True)),
+        "evidence_items": payload.get("evidence_items", []),
+        "top_k": payload.get("top_k", 3),
+        "use_cache": bool(payload.get("use_cache", True)),
     }
     try:
         return await asyncio.to_thread(call_venture_acceptance, forwarded)
@@ -1079,6 +1175,73 @@ def public_presentation_state(session_id: str) -> dict[str, Any] | None:
         return presentation_state(connection, session_id)
 
 
+@app.post("/api/public/sessions/{session_id}/agent/explain", status_code=201)
+async def explain_current_page(session_id: str, request: Request) -> dict[str, Any]:
+    """Answer a learner question from the current/adjacent slide evidence only."""
+    payload = await request.json()
+    question = str(payload.get("question", "")).strip()
+    participant_id = str(payload.get("participantId", "")).strip()
+    if len(question) < 2:
+        raise HTTPException(status_code=422, detail="请至少输入 2 个字符的问题")
+    if len(question) > 1000:
+        raise HTTPException(status_code=422, detail="问题不能超过 1000 个字符")
+    with LIVE_PARTICIPANTS_LOCK:
+        if (session_id, participant_id) not in LIVE_PARTICIPANTS:
+            raise HTTPException(status_code=401, detail="临时课堂身份已失效，请重新加入课堂")
+    enforce_public_agent_rate_limit(session_id, participant_id)
+    with connect() as connection:
+        session = connection.execute("SELECT is_active FROM class_sessions WHERE id=?", (session_id,)).fetchone()
+        if not session:
+            raise HTTPException(status_code=404, detail="课堂不存在")
+        if not session["is_active"]:
+            raise HTTPException(status_code=409, detail="课堂当前未开放")
+        state = presentation_state(connection, session_id)
+        if not state:
+            raise HTTPException(status_code=409, detail="教师尚未选择当前课件页")
+        evidence_items = presentation_evidence(connection, state, include_neighbors=True)
+    agent_input = {
+        "question": question,
+        "currentPage": {
+            "filename": state["filename"],
+            "pageNumber": state["pageNumber"],
+            "pageTitle": state["pageTitle"],
+        },
+    }
+    forwarded = {
+        "flow": "F1",
+        "input": f"学生正在学习《{state['filename']}》第 {state['pageNumber']} 页，问题是：{question}",
+        "standard": "internet_plus",
+        "prefer_live_model": True,
+        "evidence_items": evidence_items,
+        "top_k": 3,
+        "use_cache": True,
+    }
+    try:
+        result = await asyncio.to_thread(call_venture_acceptance, forwarded)
+    except RuntimeError as error:
+        save_product_agent_run(
+            session_id=session_id, actor_role="student", flow="F1", request_input=agent_input,
+            result=None, error=str(error)[:1000],
+        )
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    audit_id = save_product_agent_run(
+        session_id=session_id, actor_role="student", flow="F1", request_input=agent_input, result=result,
+    )
+    return {
+        "auditId": audit_id,
+        "runId": result.get("runId"),
+        "agent": result.get("agent"),
+        "version": result.get("version"),
+        "status": result.get("status"),
+        "mode": result.get("mode"),
+        "reply": result.get("reply"),
+        "citations": result.get("citations", []),
+        "retrieval": result.get("retrieval", {}),
+        "performance": result.get("performance", {}),
+        "notice": "回答只依据当前课件及相邻页面；请按 [E1] 等编号核对来源。",
+    }
+
+
 @app.post("/api/sessions/{session_id}/presentation")
 async def update_presentation_state(
     session_id: str,
@@ -1491,6 +1654,7 @@ async def diagnose_current_page(
                WHERE r.session_id=? ORDER BY r.created_at DESC LIMIT 100""",
             (session_id,),
         ).fetchall()
+        evidence_items = presentation_evidence(connection, state, include_neighbors=False)
     anonymized_input = {
         "page": {
             "document": state["filename"],
@@ -1513,23 +1677,42 @@ async def diagnose_current_page(
             for row in response_rows
         ],
     }
-    prompt = (
-        "你是 ClassLoop 的课堂认知诊断工具。请只依据下面提供的课件页、匿名反馈和课堂回答进行分析，"
-        "不得补造学生信息、课堂效果或外部引用。请依次给出：1.可能的共同误区；2.判断依据；"
-        "3.教师可采用的解释或反例；4.一道复测题建议；5.仍缺少的证据。"
-        "每条判断必须指出依据来自课件页、反馈或题目回答；信息不足时明确写出“不足以判断”。\n\n"
-        f"ClassLoop 当前课堂数据：\n{json.dumps(anonymized_input, ensure_ascii=False)}"
-    )
+    if feedback_rows:
+        evidence_items.append({
+            "id": "anonymous-page-feedback", "title": "当前页匿名反馈汇总",
+            "content": json.dumps(anonymized_input["feedback"], ensure_ascii=False),
+            "sourceType": "anonymous_feedback",
+            "locator": f"课堂 {session_id} / 第 {state['pageNumber']} 页 / 匿名反馈",
+        })
+    if response_rows:
+        evidence_items.append({
+            "id": "anonymous-class-responses", "title": "课堂匿名作答样本",
+            "content": json.dumps(anonymized_input["responses"], ensure_ascii=False),
+            "sourceType": "anonymous_responses",
+            "locator": f"课堂 {session_id} / 最近 {len(response_rows)} 条匿名作答",
+        })
+    forwarded = {
+        "flow": "F4",
+        "input": (
+            f"请针对《{state['filename']}》第 {state['pageNumber']} 页生成课堂干预建议。"
+            f"当前收到 {len(feedback_rows)} 条页级反馈和 {len(response_rows)} 条课堂回答。"
+        ),
+        "standard": "internet_plus", "prefer_live_model": True,
+        "evidence_items": evidence_items, "top_k": 5, "use_cache": True,
+    }
     try:
-        external = await asyncio.to_thread(call_venture_agent, prompt, f"classloop_{session_id}_{diagnosis_id}")
+        external = await asyncio.to_thread(call_venture_acceptance, forwarded)
         output = {
             "analysisText": str(external.get("reply", "")),
             "agent": external.get("agent"),
-            "reasoningTrace": external.get("reasoning_trace"),
-            "notice": "AI生成，仅供教师参考；发布前必须人工核验。",
+            "agentVersion": external.get("version"), "runId": external.get("runId"),
+            "mode": external.get("mode"), "citations": external.get("citations", []),
+            "retrieval": external.get("retrieval", {}), "performance": external.get("performance", {}),
+            "validation": external.get("validation", {}),
+            "notice": "AI 只分析课件、匿名反馈和匿名作答；请按 [E1] 等编号核对后再干预。",
         }
-        diagnosis_status = "completed"
-        diagnosis_error = None
+        diagnosis_status = str(external.get("status") or "completed")
+        diagnosis_error = external.get("error")
     except Exception as error:
         output = None
         diagnosis_status = "failed"
@@ -1545,6 +1728,10 @@ async def diagnose_current_page(
                 diagnosis_error, user["_id"], created_at,
             ),
         )
+    save_product_agent_run(
+        session_id=session_id, actor_role="teacher", flow="F4", request_input=anonymized_input,
+        result=external if diagnosis_status != "failed" else None, error=diagnosis_error,
+    )
     if diagnosis_status == "failed":
         raise HTTPException(status_code=503, detail=diagnosis_error or "Agent诊断失败")
     return {
@@ -1607,6 +1794,7 @@ def admin_overview(_: dict[str, Any] = Depends(admin_user)) -> dict[str, Any]:
             "documents": connection.execute("SELECT COUNT(*) FROM learning_documents").fetchone()[0],
             "pageFeedback": connection.execute("SELECT COUNT(*) FROM page_feedback").fetchone()[0],
             "agentDiagnoses": connection.execute("SELECT COUNT(*) FROM agent_diagnoses").fetchone()[0],
+            "agentProductRuns": connection.execute("SELECT COUNT(*) FROM agent_product_runs").fetchone()[0],
         }
         teachers = connection.execute(
             """SELECT u.id,u.email,u.name,u.created_at,COUNT(DISTINCT s.id) AS class_count
@@ -1647,6 +1835,50 @@ def admin_overview(_: dict[str, Any] = Depends(admin_user)) -> dict[str, Any]:
             "createdAt": row["created_at"], "classTitle": row["class_title"],
             "sessionCode": row["session_code"], "responseCount": row["response_count"],
         } for row in questions],
+    }
+
+
+@app.get("/api/admin/agent-runs")
+def admin_agent_runs(
+    limit: int = Query(default=50, ge=1, le=200),
+    _: dict[str, Any] = Depends(admin_user),
+) -> dict[str, Any]:
+    """Read-only audit list for student/teacher product Agent calls."""
+    with connect() as connection:
+        rows = connection.execute(
+            "SELECT * FROM agent_product_runs ORDER BY created_at DESC LIMIT ?", (limit,)
+        ).fetchall()
+        aggregates = connection.execute(
+            """SELECT COUNT(*) AS total,
+                      SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completed,
+                      SUM(CASE WHEN status='degraded' THEN 1 ELSE 0 END) AS degraded,
+                      AVG(duration_ms) AS average_ms
+               FROM agent_product_runs"""
+        ).fetchone()
+    items = []
+    cache_hits = 0
+    for row in rows:
+        output = decode_json(row["output_json"], {})
+        performance = output.get("performance", {}) if isinstance(output, dict) else {}
+        cache_hit = bool(performance.get("cacheHit"))
+        cache_hits += int(cache_hit)
+        retrieval = decode_json(row["retrieval_json"], {})
+        items.append({
+            "id": row["id"], "runId": row["venture_run_id"], "sessionId": row["session_id"],
+            "actorRole": row["actor_role"], "flow": row["flow"], "agent": row["agent_name"],
+            "version": row["agent_version"], "status": row["status"], "mode": row["mode"],
+            "evidenceHits": len(retrieval.get("hits", [])) if isinstance(retrieval, dict) else 0,
+            "citations": decode_json(row["citations_json"], []), "cacheHit": cache_hit,
+            "durationMs": row["duration_ms"], "error": row["error"], "createdAt": row["created_at"],
+        })
+    return {
+        "summary": {
+            "total": int(aggregates["total"] or 0), "completed": int(aggregates["completed"] or 0),
+            "degraded": int(aggregates["degraded"] or 0),
+            "averageMs": round(float(aggregates["average_ms"] or 0), 1),
+            "cacheHitsInView": cache_hits,
+        },
+        "items": items,
     }
 
 

@@ -48,3 +48,5 @@ http://127.0.0.1:5173/acceptance
 ```
 
 页面按三位助教分为三个独立站点：项目成果与逻辑、Agent V1→V2及F1/F2/F3随机抽测、工程证据索引。验收材料和现场操作说明位于 `acceptance/README.md`。
+
+V2.2 不只包含验收页面：学生端新增课件证据问答，教师端新增 F4 课堂证据干预，管理员端新增 Agent 运行审计；VentureAgent 新增可追溯轻量 RAG、引用协议和 10 分钟重复请求缓存。使用与实测数据见 `acceptance/ITERATION_V2_2_PRODUCT_RAG.md`。

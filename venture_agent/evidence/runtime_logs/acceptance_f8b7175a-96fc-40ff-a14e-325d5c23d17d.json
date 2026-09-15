@@ -1,0 +1,143 @@
+{
+  "runId": "acceptance_f8b7175a-96fc-40ff-a14e-325d5c23d17d",
+  "version": "classloop-agent-v2.2-evidence-rag",
+  "flow": "F4",
+  "flowName": "课堂证据干预",
+  "agent": "evidence_teaching_coach",
+  "promptVersion": "f4-teaching-evidence-v1",
+  "knowledgeBaseVersion": "evidence-rag-v1",
+  "standard": "internet_plus",
+  "status": "completed",
+  "mode": "live_model_cache",
+  "startedAt": 1789493033316.3918,
+  "finishedAt": 1789493033317.4082,
+  "durationMs": 1.0,
+  "input": "请针对《1 绪论-80.pdf》第 12 页生成课堂干预建议。当前收到 2 条页级反馈和 22 条课堂回答。",
+  "retrieval": {
+    "query": "请针对《1 绪论-80.pdf》第 12 页生成课堂干预建议。当前收到 2 条页级反馈和 22 条课堂回答。",
+    "strategy": "zh-bigram-keyword-v1",
+    "candidates": 3,
+    "topK": 5,
+    "hits": [
+      {
+        "id": "page-12-chunk-1",
+        "title": "1 绪论-80.pdf 第 12 页：Data Structure",
+        "sourceType": "courseware_chunk",
+        "locator": "1 绪论-80.pdf / 第 12 页 / 文本块 1",
+        "sourceUrl": "",
+        "score": 0.1442,
+        "matchedTerms": [
+          "12",
+          "80.pdf",
+          "第页",
+          "绪论",
+          "论第"
+        ],
+        "excerpt": "Data Structure 高春晓 数据结构研究的主要内容 ♦计算机处理的问题 ♦计算机处理数据的种类和能力 ¶ 数字 (整数，实数) ¶ 字符、文字、图形、图象、声音 ♦计算机应用 ¶ 数值领域数值计算问题 ¶ 非数值领域非数值计算问题 14",
+        "citation": "[E1]"
+      },
+      {
+        "id": "anonymous-page-feedback",
+        "title": "当前页匿名反馈汇总",
+        "sourceType": "anonymous_feedback",
+        "locator": "课堂 session_avl_demo / 第 12 页 / 匿名反馈",
+        "sourceUrl": "",
+        "score": 0.0824,
+        "matchedTerms": [
+          "反馈",
+          "当前"
+        ],
+        "excerpt": "[{\"category\": \"too_fast\", \"message\": null}, {\"category\": \"unclear\", \"message\": null}]",
+        "citation": "[E2]"
+      },
+      {
+        "id": "anonymous-class-responses",
+        "title": "课堂匿名作答样本",
+        "sourceType": "anonymous_responses",
+        "locator": "课堂 session_avl_demo / 最近 22 条匿名作答",
+        "sourceUrl": "",
+        "score": 0.0272,
+        "matchedTerms": [
+          "课堂"
+        ],
+        "excerpt": "[{\"question\": \"在最坏情况下，普通二叉搜索树（BST）的查找复杂度是多少？\", \"type\": \"single_choice\", \"text\": null, \"number\": null, \"choiceIds\": [\"q1_b\"]}, {\"question\": \"在最坏情况下，普通二叉搜索树（BST）的查找复杂度是多少？\", \"type\": \"single_choice\", \"text\": null, \"number\": null, \"choiceIds\": [\"q1_a\"]}, {\"question\": \"请用一句话说明“BST 不一定总是 O(log n)”的原因。\", \"type\": \"text_input\", \"text\": \"插入顺序可能让 BST 失去平衡。\", \"number\": ",
+        "citation": "[E3]"
+      }
+    ],
+    "latencyMs": 0.38
+  },
+  "citations": [
+    "[E1]",
+    "[E2]",
+    "[E3]"
+  ],
+  "prompt": "你是 ClassLoop Agent classloop-agent-v2.2-evidence-rag 的课堂证据干预角色。\n只能依据用户输入回答；不得编造用户反馈、市场数字、人物故事、引用或运行结果。\n所有关键判断必须以前缀 [F]事实、[I]推断、[H]假设、[S]模拟 标记。\n没有来源时写“未提供可核验来源”；模拟内容不得作为事实证据。\n输出应具体、简洁、可执行，并在结尾单列“证据边界”和“当前局限”。\n\n完成课堂证据干预流程：\n1. 只分析匿名课堂数据，不推断具体学生身份或能力；\n2. 给出“可能的共同误区—引用证据—教师干预动作—一道复测题”；\n3. 清楚区分观察事实与教学推断，证据不足时写“不足以判断”；\n4. 给出下一次应采集的数据，形成可复测闭环。\n\n【可核验证据】\n[E1] 1 绪论-80.pdf 第 12 页：Data Structure｜定位：1 绪论-80.pdf / 第 12 页 / 文本块 1｜内容：Data Structure 高春晓 数据结构研究的主要内容 ♦计算机处理的问题 ♦计算机处理数据的种类和能力 ¶ 数字 (整数，实数) ¶ 字符、文字、图形、图象、声音 ♦计算机应用 ¶ 数值领域数值计算问题 ¶ 非数值领域非数值计算问题 14\n[E2] 当前页匿名反馈汇总｜定位：课堂 session_avl_demo / 第 12 页 / 匿名反馈｜内容：[{\"category\": \"too_fast\", \"message\": null}, {\"category\": \"unclear\", \"message\": null}]\n[E3] 课堂匿名作答样本｜定位：课堂 session_avl_demo / 最近 22 条匿名作答｜内容：[{\"question\": \"在最坏情况下，普通二叉搜索树（BST）的查找复杂度是多少？\", \"type\": \"single_choice\", \"text\": null, \"number\": null, \"choiceIds\": [\"q1_b\"]}, {\"question\": \"在最坏情况下，普通二叉搜索树（BST）的查找复杂度是多少？\", \"type\": \"single_choice\", \"text\": null, \"number\": null, \"choiceIds\": [\"q1_a\"]}, {\"question\": \"请用一句话说明“BST 不一定总是 O(log n)”的原因。\", \"type\": \"text_input\", \"text\": \"插入顺序可能让 BST 失去平衡。\", \"number\": \n凡使用上述材料作判断，必须紧跟对应 [E1]/[E2]/[E3] 引用；没有材料支持时明确写证据不足。\n\n【用户输入】\n请针对《1 绪论-80.pdf》第 12 页生成课堂干预建议。当前收到 2 条页级反馈和 22 条课堂回答。",
+  "performance": {
+    "retrievalMs": 0.38,
+    "modelMs": 0.0,
+    "cacheHit": true,
+    "savedModelCalls": 1,
+    "totalMs": 1.0
+  },
+  "reply": "以下建议仅基于你提供的匿名页级反馈与匿名作答样本，不推断具体学生身份或能力。\n\n## 1. 可能的共同误区\n\n[F] 当前页匿名反馈只有 2 条，类别为 `too_fast` 与 `unclear`，且均无文字说明 [E2]。  \n[F] 最近 22 条匿名作答中，可见样本包含“普通 BST 最坏查找复杂度”选择题，以及“BST 不一定总是 O(log n)”的文字作答，其中一条文字作答为“插入顺序可能让 BST 失去平衡。” [E3]  \n[I] 可能存在的共同误区是：把“BST 查找通常为 O(log n)”误当成“任何情况下都是 O(log n)”，忽略插入顺序导致退化为链状结构的最坏情况。  \n[I] 另一个可能误区是：把第 12 页“数据结构研究的主要内容/数值与非数值问题”的绪论定位，与后续 BST 复杂度练习之间的概念跳跃没有打通，因此出现“太快/不清楚”的页级反馈 [E1][E2]。  \n[H] 若多数选择题误选平均复杂度而非最坏复杂度，则说明混淆了“平均/最好”与“最坏”场景；但当前仅能看到部分匿名作答，不能确认比例。  \n[F] 22 条作答的完整分布、每题正确率、选项计数未提供，因此“共同误区”的强度 **不足以判断**。\n\n## 2. 引用证据\n\n- [E1] `1 绪论-80.pdf` 第 12 页文本块 1：Data Structure，高春晓，数据结构研究的主要内容，计算机处理的问题、数据种类和能力，数值领域/非数值领域等。  \n- [E2] 当前页匿名反馈汇总：`too_fast`、`unclear` 各 1 条，无文字说明。  \n- [E3] 最近 22 条匿名作答：包含 BST 最坏情况查找复杂度选择题，以及“BST 不一定总是 O(log n)”的文字作答；可见文字样本提到“插入顺序可能让 BST 失去平衡”。\n\n## 3. 教师干预动作\n\n[I] 建议用 3–5 分钟做“页内概念桥接 + 最坏情况反例”干预，不涉及具体学生身份。\n\n1. **回到第 12 页的框架**  \n   [F] 第 12 页在讲数据结构研究的主要内容、数值与非数值问题 [E1]。  \n   [I] 教师可明确一句：“BST 属于非数值领域中的结构化数据组织问题；我们关心的不只是能不能存，而是不同形态下操作代价如何变化。”\n\n2. **针对 `too_fast` 降速**  \n   [F] 有 1 条匿名反馈为 `too_fast` [E2]。  \n   [I] 建议把“BST 最坏情况”拆成三步板书：  \n   - 先写普通 BST 查找路径；  \n   - 再写按有序序列插入；  \n   - 最后让学生观察树退化为链。  \n   [S] 模拟讲解句：“如果按 1,2,3,4,5 插入，树会变成一条链，查找 5 需要走 5 步。”\n\n3. **针对 `unclear` 做对比澄清**  \n   [F] 有 1 条匿名反馈为 `unclear` [E2]。  \n   [I] 用双栏对比：  \n   - 平均/平衡时：O(log n)；  \n   - 最坏/退化时：O(n)。  \n   并强调“普通 BST 不自动平衡”。\n\n4. **利用匿名文字作答做正向锚点**  \n   [F] 可见文字作答提到“插入顺序可能让 BST 失去平衡” [E3]。  \n   [I] 教师可匿名展示该思路，不点名，作为“关键条件”的示例，再追问：“什么插入顺序最容易导致退化？”\n\n5. **形成可复测闭环**  \n   [I] 下一次采集：同一题的最坏复杂度选择题 + 一道要求写插入序列并判断复杂度的短答题 + 页级反馈增加“是否清楚”二值选项。\n\n## 4. 一道复测题\n\n[I] 复测题建议：\n\n> 现有一棵普通二叉搜索树（BST），依次插入关键字：10, 20, 30, 40, 50。  \n> （1）画出插入完成后的树形。  \n> （2）此时查找 50 的最坏情况下比较次数是多少？  \n> （3）用一句话说明：为什么这棵 BST 的查找复杂度不是 O(log n)？\n\n[I] 评分关注点：  \n- 能画出链状结构；  \n- 能给出与节点数线性相关的比较次数；  \n- 能指出“插入顺序导致不平衡/退化”，而不是只背结论。\n\n## 5. 下一次应采集的数据\n\n[I] 为形成可复测闭环，建议采集：\n\n1. [E3] 同类题的**完整选项分布**与正确率，而不是仅看部分匿名样本。  \n2. [E3] 短答题的匿名文本，重点看是否出现“插入顺序”“退化”“链”“不平衡”等关键词。  \n3. [E2] 页级反馈增加可选项：`too_fast`、`unclear`、`just_right`，并允许可选文字。  \n4. [I] 一道即时迁移题：给出不同插入顺序，让学生判断是否退化。  \n5. [I] 下一次课开始时的 1 分钟回顾题，用于比较干预前后变化。\n\n## 证据边界\n\n- [E1] 仅来自 `1 绪论-80.pdf` 第 12 页文本块 1，能支持“该页在讲数据结构研究内容与数值/非数值问题”，不能单独证明学生已掌握或未掌握 BST。  \n- [E2] 仅 2 条匿名页级反馈，且无文字说明，不能代表全班比例。  \n- [E3] 仅提供最近 22 条匿名作答的部分可见内容，未提供完整题目、选项分布、正确率、作答人数比例。  \n- 未提供可核验来源：学生身份、能力分层、完整课堂录像、完整答题统计、干预前后测数据。  \n- 本文中 `[S]` 模拟讲解句仅用于教学演示，不作为事实证据。\n\n## 当前局限\n\n- 无法确认“共同误区”是否真的覆盖多数学生，**不足以判断**。  \n- 无法确认 `too_fast` 与 `unclear` 具体指向第 12 页哪个知识点。  \n- 无法确认 BST 题目与第 12 页内容之间的课堂实际衔接方式。  \n- 复测题与干预动作是 [I] 推断/[S] 模拟建议，需下一次真实课堂数据验证。",
+  "sections": [
+    {
+      "title": "可能的共同误区",
+      "content": "[I] 根据当前输入“请针对《1 绪论-80.pdf》第 12 页生成课堂干预建议。”，学生可能在概念边界或因果关系上发生混淆；若没有回答或反馈样本，则不足以判断。"
+    },
+    {
+      "title": "引用证据",
+      "content": "[F] 本次只引用调用方提供的课件页、匿名反馈和课堂回答；可在 retrieval.hits 中按 [E1] 等编号复核。"
+    },
+    {
+      "title": "教师干预",
+      "content": "先用一句话重述概念边界，再给一个最小反例，请学生解释反例在哪个条件上不成立。"
+    },
+    {
+      "title": "复测题",
+      "content": "请用“对象—场景—因果—验证”四项重写当前结论，并指出其中哪一项仍缺证据？"
+    }
+  ],
+  "claims": [
+    {
+      "tag": "F",
+      "label": "输入事实",
+      "text": "请针对《1 绪论-80.pdf》第 12 页生成课堂干预建议。"
+    },
+    {
+      "tag": "H",
+      "label": "待验证假设",
+      "text": "输入中的价值与效果陈述仍需真实用户或运行数据验证。"
+    },
+    {
+      "tag": "S",
+      "label": "演示边界",
+      "text": "本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。"
+    }
+  ],
+  "rubric": null,
+  "nextActions": [
+    "记录干预前回答",
+    "实施最小干预",
+    "用同一道复测题比较变化"
+  ],
+  "limitations": [
+    "匿名聚合数据不能用于判断单个学生能力。",
+    "没有课件或回答证据时仅能输出条件性建议。"
+  ],
+  "error": null,
+  "manualIntervention": [],
+  "validation": {
+    "passed": true,
+    "checks": {
+      "nonEmpty": true,
+      "claimBoundary": true,
+      "limitationVisible": true,
+      "flowStructure": true,
+      "citationTraceable": true
+    },
+    "failedChecks": []
+  },
+  "modeLabel": "真实模型结果缓存",
+  "rawLogPath": "venture_agent/evidence/runtime_logs/acceptance_f8b7175a-96fc-40ff-a14e-325d5c23d17d.json"
+}

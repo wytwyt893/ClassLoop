@@ -8,6 +8,7 @@
 | Agent V1版本 | `ClassLoop/evidence/v1_freeze/S02_v1_final_freeze.md` | V1名称、commit、模型、Prompt版本、角色路由 |
 | Agent V1文件清单 | `ClassLoop/evidence/v1_freeze/v1_final_manifest.json` | 冻结文件哈希与版本关系 |
 | Agent V2/最终版本 | `acceptance/VERSION.json` | 实现提交 `3dfdc5d651ba96ea6a216c9ede8c4fa29d23c466`、F1/F2/F3独立角色与入口 |
+| Agent V2.2产品/RAG迭代 | `acceptance/ITERATION_V2_2_PRODUCT_RAG.md` | 学生课件问答、教师F4、管理员审计、RAG引用、缓存性能与原始run_id |
 | 完整V1→V2案例 | `acceptance/V1_TO_V2_CASE.md` | 原始问题、修改、回归标准、取舍 |
 | F1 V1原始运行 | `ClassLoop/evidence/runtime_logs/baseline_049a6a96-4d6e-461f-9962-42268268d8b1.json` | 无来源Dropbox故事问题 |
 | F2 V1原始运行 | `ClassLoop/evidence/runtime_logs/baseline_02086ec6-3fb0-42b1-9a11-b84ed8f40483.json` | 跳过澄清直接诊断 |
