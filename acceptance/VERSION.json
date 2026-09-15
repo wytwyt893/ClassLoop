@@ -1,0 +1,23 @@
+{
+  "project": "ClassLoop",
+  "repository": "https://github.com/wytwyt893/ClassLoop.git",
+  "v1": {
+    "version": "classloop-v1-freeze-20260908",
+    "commit": "ebcd6962c3f75b4488ca9f8cc8a3ffd62322129a",
+    "promptVersion": "classloop-baseline-v1-20260908",
+    "evidence": "ClassLoop/evidence/v1_freeze/S02_v1_final_freeze.md"
+  },
+  "final": {
+    "version": "classloop-agent-v2.1-acceptance",
+    "implementationCommit": "TO_BE_FILLED_AFTER_VERIFIED_COMMIT",
+    "entry": "http://127.0.0.1:5173/acceptance",
+    "api": "http://127.0.0.1:8140/api/acceptance/run",
+    "flows": {
+      "F1": {"agent": "learning_tutor", "promptVersion": "f1-tutor-v2.1"},
+      "F2": {"agent": "project_coach", "promptVersion": "f2-coach-v2.1"},
+      "F3": {"agent": "project_reviewer", "promptVersion": "f3-reviewer-v2.1"}
+    },
+    "knowledgeBaseVersion": "none-explicit-source-boundary",
+    "logDirectory": "venture_agent/evidence/runtime_logs"
+  }
+}

@@ -93,11 +93,13 @@ if ($Mode -eq "Full") {
         throw "Missing VentureAgent virtual environment. Create venture_agent\backend\.venv and install requirements.txt first."
     }
     if (-not (Test-Path $ventureEnv)) {
-        throw "Missing venture_agent\backend\.env. Copy .env.example to .env and add DEEPSEEK_API_KEY first."
+        Write-Host "[WARN] venture_agent\backend\.env is missing. Live model calls will be unavailable; acceptance flows will use an explicitly labelled fallback." -ForegroundColor Yellow
     }
-    Import-DotEnvFile $ventureEnv
+    else {
+        Import-DotEnvFile $ventureEnv
+    }
     if ([string]::IsNullOrWhiteSpace($env:DEEPSEEK_API_KEY)) {
-        throw "DEEPSEEK_API_KEY is missing or empty in venture_agent\backend\.env."
+        Write-Host "[WARN] DEEPSEEK_API_KEY is empty. VentureAgent will start, and acceptance runs will be marked degraded instead of pretending the model succeeded." -ForegroundColor Yellow
     }
 
     Write-Step "Checking ClassLoop Neo4j"
@@ -179,6 +181,7 @@ Write-Host "`nClassLoop is ready:" -ForegroundColor Green
 Write-Host "  App:       http://127.0.0.1:5173"
 Write-Host "  API docs:  http://127.0.0.1:8100/docs"
 Write-Host "  API health:http://127.0.0.1:8100/api/health"
+Write-Host "  Acceptance:http://127.0.0.1:5173/acceptance"
 if ($Mode -eq "Full") {
     Write-Host "  Agent docs:http://127.0.0.1:8140/docs"
     Write-Host "  ClassLoop Neo4j:http://127.0.0.1:7475"

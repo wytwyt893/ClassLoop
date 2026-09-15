@@ -27,6 +27,14 @@ const portals = [
     description: "只读查看教师账号、课堂、题目与回答统计。",
     accent: "from-violet-500 to-fuchsia-600",
   },
+  {
+    href: "/acceptance",
+    icon: "🎯",
+    eyebrow: "最终验收",
+    title: "三站验收演示中心",
+    description: "项目逻辑、F1/F2/F3随机抽测、V1→V2与证据索引一页切换。",
+    accent: "from-amber-400 to-orange-600",
+  },
 ] as const;
 
 export function PortalLanding() {
@@ -77,7 +85,7 @@ export function PortalLanding() {
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">学生保持临时匿名，教师账号长期保存，管理员仅查看系统数据概况。</p>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {portals.map((portal) => (
             <a key={portal.href} href={portal.href} className="group rounded-[2rem] border border-white/10 bg-white/[0.06] p-2 backdrop-blur transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.09]">
               <div className="h-full rounded-[1.6rem] bg-slate-900/70 p-6">

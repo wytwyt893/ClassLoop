@@ -21,7 +21,7 @@ Copy-Item ClassLoop\frontend\.env.example ClassLoop\frontend\.env
 Copy-Item venture_agent\backend\.env.example venture_agent\backend\.env
 ```
 
-在 `venture_agent\backend\.env` 中填写 `DEEPSEEK_API_KEY`。两套 Neo4j 的端口、账号和数据卷相互独立，不需要保持密码一致。
+如需真实模型回复，在 `venture_agent\backend\.env` 中填写 `DEEPSEEK_API_KEY`。未填写时完整环境仍可启动，验收 Agent 会明确显示“结构化降级”并保存失败原因，不能把该结果称为真实模型输出。两套 Neo4j 的端口、账号和数据卷相互独立，不需要保持密码一致。
 
 ## 启动
 
@@ -38,3 +38,13 @@ Copy-Item venture_agent\backend\.env.example venture_agent\backend\.env
 ```
 
 也可以从 `ClassLoop` 目录调用其中的同名脚本；它会转发到仓库根启动器。
+
+## 最终验收入口
+
+完整模式启动后打开：
+
+```text
+http://127.0.0.1:5173/acceptance
+```
+
+页面按三位助教分为三个独立站点：项目成果与逻辑、Agent V1→V2及F1/F2/F3随机抽测、工程证据索引。验收材料和现场操作说明位于 `acceptance/README.md`。

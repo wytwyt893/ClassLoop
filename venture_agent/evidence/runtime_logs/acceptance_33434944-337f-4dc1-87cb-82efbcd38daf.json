@@ -1,0 +1,78 @@
+{
+  "runId": "acceptance_33434944-337f-4dc1-87cb-82efbcd38daf",
+  "version": "classloop-agent-v2.1-acceptance",
+  "flow": "F2",
+  "flowName": "项目指导",
+  "agent": "project_coach",
+  "promptVersion": "f2-coach-v2.1",
+  "knowledgeBaseVersion": "none-explicit-source-boundary",
+  "standard": "internet_plus",
+  "status": "degraded",
+  "mode": "deterministic_fallback",
+  "startedAt": 1789490373485.2585,
+  "finishedAt": 1789490373485.2585,
+  "durationMs": 0.0,
+  "input": "ClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions first.",
+  "prompt": "你是 ClassLoop Agent classloop-agent-v2.1-acceptance 的项目指导角色。\n只能依据用户输入回答；不得编造用户反馈、市场数字、人物故事、引用或运行结果。\n所有关键判断必须以前缀 [F]事实、[I]推断、[H]假设、[S]模拟 标记。\n没有来源时写“未提供可核验来源”；模拟内容不得作为事实证据。\n输出应具体、简洁、可执行，并在结尾单列“证据边界”和“当前局限”。\n\n完成项目指导流程：\n1. 开头先提出至少 2 个澄清问题；\n2. 分别梳理目标用户、具体场景、核心问题、已有证据和证据缺口；\n3. 在信息不足时只给条件性建议，不替学生补造事实；\n4. 给出一个 24 小时内可完成的下一步。\n\n【用户输入】\nClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions first.",
+  "reply": "## 先澄清\n- 首要用户是教师、学生还是教务管理者？只能先选一个。\n- 当前已有哪一条真实课堂记录可以证明问题发生？\n- 本轮目标是验证需求、验证可用性，还是准备竞赛材料？\n\n## 条件性诊断\n[F] 输入提到：“ClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions fir”。[I] 若目标是课堂反馈，则应先证明反馈丢失上下文，而不是先扩展功能。\n\n## 证据缺口\n[H] 用户愿意持续使用、页级反馈优于课后问卷、教师能在课堂内及时处理，这三项尚不能由功能完成度自动证明。\n\n## 24 小时下一步\n选 1 节课、1 位教师、1 个课件页，记录触发反馈—教师查看—采取动作的完整链路；若只能模拟，必须标 [S]。\n\n## 证据边界\n- [F] ClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions fir\n- [H] 输入中的价值与效果陈述仍需真实用户或运行数据验证。\n- [S] 本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。\n\n## 当前局限\n- 信息不足时不生成确定性市场结论或完整商业计划。",
+  "sections": [
+    {
+      "title": "先澄清",
+      "content": [
+        "首要用户是教师、学生还是教务管理者？只能先选一个。",
+        "当前已有哪一条真实课堂记录可以证明问题发生？",
+        "本轮目标是验证需求、验证可用性，还是准备竞赛材料？"
+      ]
+    },
+    {
+      "title": "条件性诊断",
+      "content": "[F] 输入提到：“ClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions fir”。[I] 若目标是课堂反馈，则应先证明反馈丢失上下文，而不是先扩展功能。"
+    },
+    {
+      "title": "证据缺口",
+      "content": "[H] 用户愿意持续使用、页级反馈优于课后问卷、教师能在课堂内及时处理，这三项尚不能由功能完成度自动证明。"
+    },
+    {
+      "title": "24 小时下一步",
+      "content": "选 1 节课、1 位教师、1 个课件页，记录触发反馈—教师查看—采取动作的完整链路；若只能模拟，必须标 [S]。"
+    }
+  ],
+  "claims": [
+    {
+      "tag": "F",
+      "label": "输入事实",
+      "text": "ClassLoop has a runnable prototype but no real user evidence. Ask clarifying questions fir"
+    },
+    {
+      "tag": "H",
+      "label": "待验证假设",
+      "text": "输入中的价值与效果陈述仍需真实用户或运行数据验证。"
+    },
+    {
+      "tag": "S",
+      "label": "演示边界",
+      "text": "本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。"
+    }
+  ],
+  "rubric": null,
+  "nextActions": [
+    "回答三个澄清问题",
+    "补一条可定位的真实或明确标 S 的流程记录"
+  ],
+  "limitations": [
+    "信息不足时不生成确定性市场结论或完整商业计划。"
+  ],
+  "error": "本次测试显式关闭真实模型，用于验证离线降级和日志留痕。",
+  "manualIntervention": [],
+  "validation": {
+    "passed": false,
+    "checks": {
+      "liveModelRequested": false
+    },
+    "failedChecks": [
+      "liveModelDisabled"
+    ]
+  },
+  "modeLabel": "结构化降级",
+  "rawLogPath": "venture_agent/evidence/runtime_logs/acceptance_33434944-337f-4dc1-87cb-82efbcd38daf.json"
+}

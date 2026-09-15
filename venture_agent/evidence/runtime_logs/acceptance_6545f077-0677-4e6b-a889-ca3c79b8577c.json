@@ -1,0 +1,143 @@
+{
+  "runId": "acceptance_6545f077-0677-4e6b-a889-ca3c79b8577c",
+  "version": "classloop-agent-v2.1-acceptance",
+  "flow": "F3",
+  "flowName": "评审反馈",
+  "agent": "project_reviewer",
+  "promptVersion": "f3-reviewer-v2.1",
+  "knowledgeBaseVersion": "none-explicit-source-boundary",
+  "standard": "internet_plus",
+  "status": "degraded",
+  "mode": "deterministic_fallback",
+  "startedAt": 1789490304314.3645,
+  "finishedAt": 1789490304314.3645,
+  "durationMs": 0.0,
+  "input": "ClassLoop面向高校师生，已实现React、FastAPI、SQLite、Neo4j、SSE、页级反馈和Agent日志；真实课堂效果和持续使用意愿仍待验证。",
+  "prompt": "你是 ClassLoop Agent classloop-agent-v2.1-acceptance 的评审反馈角色。\n只能依据用户输入回答；不得编造用户反馈、市场数字、人物故事、引用或运行结果。\n所有关键判断必须以前缀 [F]事实、[I]推断、[H]假设、[S]模拟 标记。\n没有来源时写“未提供可核验来源”；模拟内容不得作为事实证据。\n输出应具体、简洁、可执行，并在结尾单列“证据边界”和“当前局限”。\n\n完成独立项目评审流程，参考“中国国际大学生创新大赛参考框架”：\n1. 逐项覆盖：创新性(25%)、教育与社会价值(20%)、用户、场景与需求(20%)、可行性与成果(20%)、团队与发展潜力(15%)；\n2. 每一项给出输入证据、证据缺口、风险和可操作修改；\n3. 证据不足时明确写“暂不评分/需补证”，不要编造分数依据；\n4. 总结 2 个优点、3 个优先整改动作和 1 个剩余风险。\n说明：课程验收演示参考框架，强调创新、产业/教育价值与落地，不替代当届正式规则。\n\n【用户输入】\nClassLoop面向高校师生，已实现React、FastAPI、SQLite、Neo4j、SSE、页级反馈和Agent日志；真实课堂效果和持续使用意愿仍待验证。",
+  "reply": "## 评审结论\n[F] 文本覆盖度规则得分 61.6 / 100。[I] 当前可进入原型验证，但该分数不代表官方竞赛成绩。\n\n## 可确认优点\n- 方案已有明确的软件实现与可演示链路。\n- 项目主动区分事实、推断、假设与模拟，降低材料失真风险。\n\n## 关键缺口\n[H] 当前最需要补证的维度为：创新性、教育与社会价值、用户、场景与需求。功能存在不等于用户价值已经成立。\n\n## 优先整改\n- 补一条目标用户—场景—问题的可核验证据。\n- 用同一输入保存一次成功和一次异常/降级运行。\n- 统一 PPT、计划书与系统页面中的关键数字及版本号。\n\n## 证据边界\n- [F] ClassLoop面向高校师生，已实现React、FastAPI、SQLite、Neo4j、SSE、页级反馈和Agent日志；\n- [H] 输入中的价值与效果陈述仍需真实用户或运行数据验证。\n- [S] 本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。\n\n## 当前局限\n- 评分仅衡量输入材料覆盖度。\n- 未核验的市场、用户和效果数字不计为事实证据。",
+  "sections": [
+    {
+      "title": "评审结论",
+      "content": "[F] 文本覆盖度规则得分 61.6 / 100。[I] 当前可进入原型验证，但该分数不代表官方竞赛成绩。"
+    },
+    {
+      "title": "可确认优点",
+      "content": [
+        "方案已有明确的软件实现与可演示链路。",
+        "项目主动区分事实、推断、假设与模拟，降低材料失真风险。"
+      ]
+    },
+    {
+      "title": "关键缺口",
+      "content": "[H] 当前最需要补证的维度为：创新性、教育与社会价值、用户、场景与需求。功能存在不等于用户价值已经成立。"
+    },
+    {
+      "title": "优先整改",
+      "content": [
+        "补一条目标用户—场景—问题的可核验证据。",
+        "用同一输入保存一次成功和一次异常/降级运行。",
+        "统一 PPT、计划书与系统页面中的关键数字及版本号。"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "tag": "F",
+      "label": "输入事实",
+      "text": "ClassLoop面向高校师生，已实现React、FastAPI、SQLite、Neo4j、SSE、页级反馈和Agent日志；"
+    },
+    {
+      "tag": "H",
+      "label": "待验证假设",
+      "text": "输入中的价值与效果陈述仍需真实用户或运行数据验证。"
+    },
+    {
+      "tag": "S",
+      "label": "演示边界",
+      "text": "本次结构化兜底用于演示流程稳定性，不等同于真实调研或模型推理证据。"
+    }
+  ],
+  "rubric": {
+    "standard": "internet_plus",
+    "name": "中国国际大学生创新大赛参考框架",
+    "shortName": "创新大赛（原互联网+）",
+    "disclaimer": "课程验收演示参考框架，强调创新、产业/教育价值与落地，不替代当届正式规则。",
+    "overallScore": 61.6,
+    "grade": "建议补证后再评",
+    "dimensions": [
+      {
+        "key": "innovation",
+        "name": "创新性",
+        "weight": 25,
+        "score": 64,
+        "evidence": [
+          "页级",
+          "agent"
+        ],
+        "status": "有文本依据"
+      },
+      {
+        "key": "value",
+        "name": "教育与社会价值",
+        "weight": 20,
+        "score": 56,
+        "evidence": [
+          "课堂"
+        ],
+        "status": "有文本依据"
+      },
+      {
+        "key": "market",
+        "name": "用户、场景与需求",
+        "weight": 20,
+        "score": 56,
+        "evidence": [
+          "高校"
+        ],
+        "status": "有文本依据"
+      },
+      {
+        "key": "feasibility",
+        "name": "可行性与成果",
+        "weight": 20,
+        "score": 80,
+        "evidence": [
+          "fastapi",
+          "react",
+          "sqlite",
+          "neo4j"
+        ],
+        "status": "有文本依据"
+      },
+      {
+        "key": "team",
+        "name": "团队与发展潜力",
+        "weight": 15,
+        "score": 48,
+        "evidence": [],
+        "status": "证据不足"
+      }
+    ]
+  },
+  "nextActions": [
+    "优先补最低分维度的证据",
+    "保留修改前后材料与 run_id"
+  ],
+  "limitations": [
+    "评分仅衡量输入材料覆盖度。",
+    "未核验的市场、用户和效果数字不计为事实证据。"
+  ],
+  "error": "验收前离线回归：显式关闭真实模型，验证降级、边界和日志保存。",
+  "manualIntervention": [],
+  "validation": {
+    "passed": false,
+    "checks": {
+      "liveModelRequested": false
+    },
+    "failedChecks": [
+      "liveModelDisabled"
+    ]
+  },
+  "modeLabel": "结构化降级",
+  "rawLogPath": "venture_agent/evidence/runtime_logs/acceptance_6545f077-0677-4e6b-a889-ca3c79b8577c.json"
+}

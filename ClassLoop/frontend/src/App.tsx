@@ -13,6 +13,7 @@ import { PortalLanding } from "./components/PortalLanding";
 import { StudentEntry } from "./components/StudentEntry";
 import { TeacherEntry } from "./components/TeacherEntry";
 import { AdminDatabaseView, AdminSignIn } from "./components/AdminView";
+import { AcceptanceCenter } from "./components/AcceptanceCenter";
 import { Toaster, toast } from "sonner";
 
 function Logo({ inverse = false }: { inverse?: boolean }) {
@@ -177,6 +178,7 @@ function App() {
   if (path === "/student") return <StudentEntry />;
   if (path === "/teacher") return <TeacherRoute />;
   if (path === "/admin") return <AdminRoute />;
+  if (path === "/acceptance") return <AcceptanceCenter />;
   if (path === "/input") return <><ParticipantView /><Toaster richColors position="top-center" /></>;
   if (path === "/output") return <><ResultsView /><Toaster richColors position="top-center" /></>;
   if (path === "/timer") return <><TimerView /><Toaster richColors position="top-center" /></>;

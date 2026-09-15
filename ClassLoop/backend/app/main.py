@@ -237,6 +237,31 @@ def call_venture_agent(message: str, session_id: str, agent: str = "project_coac
     return result
 
 
+def call_venture_acceptance(payload_value: dict[str, Any]) -> dict[str, Any]:
+    """Call VentureAgent's versioned acceptance API without changing legacy chat."""
+    settings = venture_agent_settings()
+    if not settings["configured"]:
+        raise RuntimeError("尚未配置 CLASSLOOP_AGENT_BASE_URL；请使用根目录 start_classloop.ps1 -Mode Full 启动")
+    body = json.dumps(payload_value, ensure_ascii=False).encode("utf-8")
+    upstream_request = urllib_request.Request(
+        f"{settings['baseUrl']}/api/acceptance/run",
+        data=body,
+        headers={"Content-Type": "application/json; charset=utf-8"},
+        method="POST",
+    )
+    try:
+        with urllib_request.urlopen(upstream_request, timeout=settings["timeoutSeconds"]) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except urllib_error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")[:500]
+        raise RuntimeError(f"VentureAgent 验收接口返回 HTTP {error.code}：{detail}") from error
+    except (urllib_error.URLError, TimeoutError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"无法连接 VentureAgent 验收接口：{error}") from error
+    if not isinstance(result, dict) or not result.get("runId"):
+        raise RuntimeError("VentureAgent 验收接口返回格式不完整")
+    return result
+
+
 def create_access_token(connection: sqlite3.Connection, user_id: str) -> str:
     token = new_token()
     ttl_hours = int(os.getenv("CLASSLOOP_TOKEN_TTL_HOURS", "168"))
@@ -415,6 +440,63 @@ def health() -> dict[str, Any]:
     with connect() as connection:
         connection.execute("SELECT 1").fetchone()
     return {"status": "ok", "database": "sqlite", "path": str(database_path())}
+
+
+@app.get("/api/acceptance/status")
+def acceptance_status() -> dict[str, Any]:
+    settings = venture_agent_settings()
+    reachable = False
+    upstream_version = None
+    error_text = None
+    if settings["configured"]:
+        try:
+            with urllib_request.urlopen(f"{settings['baseUrl']}/api/acceptance/meta", timeout=2) as response:
+                meta = json.loads(response.read().decode("utf-8"))
+            reachable = isinstance(meta, dict) and bool(meta.get("version"))
+            upstream_version = meta.get("version") if isinstance(meta, dict) else None
+        except (urllib_error.URLError, urllib_error.HTTPError, TimeoutError, json.JSONDecodeError) as error:
+            error_text = f"{type(error).__name__}: {str(error)[:180]}"
+    return {
+        "configured": settings["configured"],
+        "reachable": reachable,
+        "provider": settings["provider"],
+        "model": settings["model"],
+        "version": upstream_version or "classloop-agent-v2.1-acceptance",
+        "error": error_text,
+        "message": (
+            "VentureAgent 已连接，可运行 F1/F2/F3"
+            if reachable
+            else "VentureAgent 地址已配置但服务未连接，请使用完整模式重启"
+            if settings["configured"]
+            else "尚未配置 VentureAgent，请使用 start_classloop.ps1 -Mode Full 启动"
+        ),
+    }
+
+
+@app.post("/api/acceptance/run")
+async def proxy_acceptance_run(request: Request) -> dict[str, Any]:
+    payload = await request.json()
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=422, detail="请求体必须是 JSON 对象")
+    flow = str(payload.get("flow", "")).upper()
+    if flow not in {"F1", "F2", "F3"}:
+        raise HTTPException(status_code=422, detail="flow 必须是 F1、F2 或 F3")
+    user_input = str(payload.get("input", "")).strip()
+    if len(user_input) < 6:
+        raise HTTPException(status_code=422, detail="测试输入至少需要 6 个字符")
+    standard = str(payload.get("standard", "internet_plus"))
+    if standard not in {"challenge_cup", "internet_plus"}:
+        raise HTTPException(status_code=422, detail="standard 必须是 challenge_cup 或 internet_plus")
+    forwarded = {
+        "flow": flow,
+        "input": user_input,
+        "standard": standard,
+        "prefer_live_model": bool(payload.get("prefer_live_model", True)),
+    }
+    try:
+        return await asyncio.to_thread(call_venture_acceptance, forwarded)
+    except RuntimeError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
 
 
 @app.post("/api/auth/register", status_code=201)

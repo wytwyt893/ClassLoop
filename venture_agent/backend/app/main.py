@@ -14,6 +14,7 @@ import re
 from typing import Optional, List, Literal
 from pydantic import BaseModel, Field
 import httpx
+import asyncio
 print(f"DEBUG: main.py loaded from {os.path.abspath(__file__)}")
 
 # 导入本地模块
@@ -46,6 +47,17 @@ from app.agent.reasoning_graph_store import (
     store_reasoning_graph_in_neo4j,
 )
 from app.ingestion.db_config import db
+from app.acceptance import (
+    AGENT_VERSION as ACCEPTANCE_AGENT_VERSION,
+    FLOW_META as ACCEPTANCE_FLOW_META,
+    KNOWLEDGE_BASE_VERSION as ACCEPTANCE_KB_VERSION,
+    RUBRICS as ACCEPTANCE_RUBRICS,
+    finish_run as finish_acceptance_run,
+    list_runs as list_acceptance_runs,
+    new_run_record as new_acceptance_run,
+    persist_run as persist_acceptance_run,
+    validate_live_reply,
+)
 
 app = FastAPI(
     title="VentureAgent API",
@@ -267,6 +279,13 @@ class CommitRequest(BaseModel):
 class ReviewRequest(BaseModel):
     rubric: str = "internet_plus"
     custom_rubric_text: Optional[str] = None
+
+
+class AcceptanceRunRequest(BaseModel):
+    flow: Literal["F1", "F2", "F3"]
+    input: str = Field(min_length=6, max_length=12000)
+    standard: Literal["challenge_cup", "internet_plus"] = "internet_plus"
+    prefer_live_model: bool = True
 
 class UpdateContentRequest(BaseModel):
     content: str
@@ -501,6 +520,91 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+@app.get("/api/acceptance/meta")
+def acceptance_meta():
+    return {
+        "version": ACCEPTANCE_AGENT_VERSION,
+        "knowledgeBaseVersion": ACCEPTANCE_KB_VERSION,
+        "flows": ACCEPTANCE_FLOW_META,
+        "rubrics": {
+            key: {
+                "name": value["name"],
+                "shortName": value["shortName"],
+                "disclaimer": value["disclaimer"],
+                "dimensions": [
+                    {item_key: item[item_key] for item_key in ("key", "name", "weight")}
+                    for item in value["dimensions"]
+                ],
+            }
+            for key, value in ACCEPTANCE_RUBRICS.items()
+        },
+    }
+
+
+@app.post("/api/acceptance/run")
+async def run_acceptance_agent(request: AcceptanceRunRequest):
+    """Run F1/F2/F3 with a versioned prompt, protocol checks and visible fallback.
+
+    Every attempt gets a run_id and raw JSON record. A model outage or protocol
+    failure is returned as ``degraded`` rather than being presented as success.
+    """
+    record = new_acceptance_run(request.flow, request.input, request.standard)
+
+    if request.prefer_live_model:
+        try:
+            from app.agent.graph import get_llm
+
+            def invoke_model():
+                response = get_llm().invoke(record["prompt"])
+                content = response.content
+                if isinstance(content, list):
+                    return "".join(str(part) for part in content)
+                return str(content)
+
+            live_reply = (await asyncio.to_thread(invoke_model)).strip()
+            validation = validate_live_reply(request.flow, live_reply)
+            record["validation"] = validation
+            if not validation["passed"]:
+                failed = ", ".join(validation["failedChecks"])
+                finish_acceptance_run(
+                    record,
+                    status="degraded",
+                    mode="deterministic_fallback",
+                    error=f"真实模型输出未通过 V2 协议校验：{failed}",
+                )
+            else:
+                record["reply"] = live_reply
+                finish_acceptance_run(record, status="completed", mode="live_model")
+        except Exception as error:
+            record["validation"] = {"passed": False, "checks": {}, "failedChecks": ["modelInvocation"]}
+            finish_acceptance_run(
+                record,
+                status="degraded",
+                mode="deterministic_fallback",
+                error=f"真实模型调用不可用，已明确降级：{type(error).__name__}: {str(error)[:280]}",
+            )
+    else:
+        record["validation"] = {
+            "passed": False,
+            "checks": {"liveModelRequested": False},
+            "failedChecks": ["liveModelDisabled"],
+        }
+        finish_acceptance_run(
+            record,
+            status="degraded",
+            mode="deterministic_fallback",
+            error="本次测试显式关闭真实模型，用于验证离线降级和日志留痕。",
+        )
+
+    persist_acceptance_run(record)
+    return record
+
+
+@app.get("/api/acceptance/runs")
+def get_acceptance_runs(limit: int = Query(default=20, ge=1, le=100)):
+    return list_acceptance_runs(limit=limit)
 
 @app.get("/api/sync/dashboard")
 def sync_dashboard(user_id: str):
