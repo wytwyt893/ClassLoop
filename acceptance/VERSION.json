@@ -9,7 +9,7 @@
   },
   "final": {
     "version": "classloop-agent-v2.2-evidence-rag",
-    "implementationCommit": "TO_BE_RECORDED_AFTER_COMMIT",
+    "implementationCommit": "b8ad4fa601e9d422f92d4b2c0783a8a63aae2ccc",
     "entry": "http://127.0.0.1:5173/acceptance",
     "api": "http://127.0.0.1:8140/api/acceptance/run",
     "flows": {
