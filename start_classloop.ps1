@@ -44,6 +44,22 @@ function Test-DockerReady {
     return $LASTEXITCODE -eq 0
 }
 
+function Import-DotEnvFile([string]$Path) {
+    foreach ($line in Get-Content -LiteralPath $Path) {
+        if ($line -match '^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$') {
+            $name = $matches[1]
+            $value = $matches[2].Trim()
+            if ($value.Length -ge 2 -and (
+                ($value.StartsWith('"') -and $value.EndsWith('"')) -or
+                ($value.StartsWith("'") -and $value.EndsWith("'"))
+            )) {
+                $value = $value.Substring(1, $value.Length - 2)
+            }
+            [Environment]::SetEnvironmentVariable($name, $value, "Process")
+        }
+    }
+}
+
 function Start-ServiceWindow([string]$Title, [string]$WorkingDirectory, [string]$Command) {
     $safeTitle = $Title.Replace("'", "''")
     $safeDirectory = $WorkingDirectory.Replace("'", "''")
@@ -77,44 +93,58 @@ if ($Mode -eq "Full") {
         throw "Missing VentureAgent virtual environment. Create venture_agent\backend\.venv and install requirements.txt first."
     }
     if (-not (Test-Path $ventureEnv)) {
-        throw "Missing venture_agent\backend\.env. Add DEEPSEEK_API_KEY there first."
+        throw "Missing venture_agent\backend\.env. Copy .env.example to .env and add DEEPSEEK_API_KEY first."
     }
-    $envText = Get-Content -LiteralPath $ventureEnv -Raw
-    if ($envText -notmatch '(?m)^\s*DEEPSEEK_API_KEY\s*=\s*[^\s#]+') {
+    Import-DotEnvFile $ventureEnv
+    if ([string]::IsNullOrWhiteSpace($env:DEEPSEEK_API_KEY)) {
         throw "DEEPSEEK_API_KEY is missing or empty in venture_agent\backend\.env."
     }
 
-    Write-Step "Starting Docker Desktop and ClassLoop Neo4j"
-    if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
-        throw "Docker CLI was not found. Install Docker Desktop first."
+    if ([string]::IsNullOrWhiteSpace($env:NEO4J_URI)) { $env:NEO4J_URI = "bolt://127.0.0.1:7687" }
+    if ([string]::IsNullOrWhiteSpace($env:NEO4J_USER)) { $env:NEO4J_USER = "neo4j" }
+    if ([string]::IsNullOrWhiteSpace($env:NEO4J_PASSWORD)) { $env:NEO4J_PASSWORD = "venture-agent-graph" }
+    if ([string]::IsNullOrWhiteSpace($env:NEO4J_BROWSER_URL)) { $env:NEO4J_BROWSER_URL = "http://127.0.0.1:7474" }
+    $env:CLASSLOOP_NEO4J_URI = $env:NEO4J_URI
+    $env:CLASSLOOP_NEO4J_USER = $env:NEO4J_USER
+    $env:CLASSLOOP_NEO4J_PASSWORD = $env:NEO4J_PASSWORD
+    $env:CLASSLOOP_NEO4J_DATABASE = "neo4j"
+
+    Write-Step "Checking shared VentureAgent Neo4j"
+    if (Test-TcpPort 7687) {
+        Write-Host "[SKIP] Neo4j is already listening on port 7687; reusing it for both projects." -ForegroundColor Yellow
     }
-    if (-not (Test-DockerReady)) {
-        $dockerDesktop = Join-Path $env:ProgramFiles "Docker\Docker\Docker Desktop.exe"
-        if (-not (Test-Path $dockerDesktop)) {
-            throw "Docker Desktop is not running and its executable was not found."
+    else {
+        if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
+            throw "Neo4j is not listening on port 7687 and Docker CLI was not found. Install Docker Desktop first."
         }
-        Write-Host "Docker Engine is not ready. Starting Docker Desktop with 'docker desktop start'..." -ForegroundColor Yellow
-        & $env:ComSpec /d /c "docker desktop start"
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "Docker CLI startup failed; falling back to Docker Desktop.exe..." -ForegroundColor Yellow
-            Start-Process -FilePath $dockerDesktop | Out-Null
+        if (-not (Test-DockerReady)) {
+            $dockerDesktop = Join-Path $env:ProgramFiles "Docker\Docker\Docker Desktop.exe"
+            if (-not (Test-Path $dockerDesktop)) {
+                throw "Docker Desktop is not running and its executable was not found."
+            }
+            Write-Host "Docker Engine is not ready. Starting Docker Desktop with 'docker desktop start'..." -ForegroundColor Yellow
+            & $env:ComSpec /d /c "docker desktop start"
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "Docker CLI startup failed; falling back to Docker Desktop.exe..." -ForegroundColor Yellow
+                Start-Process -FilePath $dockerDesktop | Out-Null
+            }
+            $deadline = (Get-Date).AddSeconds(180)
+            do {
+                Write-Host "Waiting for Docker Linux Engine..." -ForegroundColor DarkGray
+                Start-Sleep -Seconds 5
+                $dockerReady = Test-DockerReady
+            } while (-not $dockerReady -and (Get-Date) -lt $deadline)
+            if (-not $dockerReady) {
+                throw "Docker Desktop opened, but its Linux Engine did not become ready within 180 seconds. Open Docker Desktop and check its error message."
+            }
         }
-        $deadline = (Get-Date).AddSeconds(180)
-        do {
-            Write-Host "Waiting for Docker Linux Engine..." -ForegroundColor DarkGray
-            Start-Sleep -Seconds 5
-            $dockerReady = Test-DockerReady
-        } while (-not $dockerReady -and (Get-Date) -lt $deadline)
-        if (-not $dockerReady) {
-            throw "Docker Desktop opened, but its Linux Engine did not become ready within 180 seconds. Open Docker Desktop and check its error message."
-        }
+        Write-Host "[OK] Docker Linux Engine is ready" -ForegroundColor Green
+        Push-Location $ClassLoopBackend
+        try { docker compose -f docker-compose.neo4j.yml up -d }
+        finally { Pop-Location }
+        if ($LASTEXITCODE -ne 0) { throw "Shared Neo4j Docker Compose startup failed." }
+        Wait-TcpPort 7687 "Shared Neo4j" 120
     }
-    Write-Host "[OK] Docker Linux Engine is ready" -ForegroundColor Green
-    Push-Location $ClassLoopBackend
-    try { docker compose -f docker-compose.neo4j.yml up -d }
-    finally { Pop-Location }
-    if ($LASTEXITCODE -ne 0) { throw "Neo4j Docker Compose startup failed." }
-    Wait-TcpPort 7688 "Neo4j" 120
 
     Write-Step "Starting VentureAgent"
     if (Test-TcpPort 8140) {
@@ -153,6 +183,6 @@ Write-Host "  API docs:  http://127.0.0.1:8100/docs"
 Write-Host "  API health:http://127.0.0.1:8100/api/health"
 if ($Mode -eq "Full") {
     Write-Host "  Agent docs:http://127.0.0.1:8140/docs"
-    Write-Host "  Neo4j:     http://127.0.0.1:7475"
+    Write-Host "  Neo4j:     http://127.0.0.1:7474"
 }
 Write-Host "`nKeep the service PowerShell windows open while demonstrating ClassLoop." -ForegroundColor Yellow

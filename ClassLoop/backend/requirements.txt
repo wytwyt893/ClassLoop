@@ -5,3 +5,4 @@ python-multipart==0.0.20
 pypdf==6.1.1
 python-pptx==1.0.2
 neo4j==6.0.2
+python-dotenv==1.1.1

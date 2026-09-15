@@ -49,6 +49,6 @@ Copy-Item .env.example .env
 docker compose -f docker-compose.neo4j.yml up -d
 ```
 
-- Neo4j Browser：http://127.0.0.1:7475
-- Bolt：`bolt://127.0.0.1:7688`
-- 默认本地账号：`neo4j` / `classloop-graph`（正式使用前请在 `.env` 修改）
+- Neo4j Browser：http://127.0.0.1:7474
+- Bolt：`bolt://127.0.0.1:7687`
+- 默认本地账号：`neo4j` / `venture-agent-graph`（与 VentureAgent 共用，正式使用前请在 `.env` 修改）

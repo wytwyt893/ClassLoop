@@ -20,6 +20,8 @@ dist-ssr
 .env.local
 .env*.local
 *.env.*
+!.env.example
+!.env.production.example
 
 # Convex
 convex/_generated/
