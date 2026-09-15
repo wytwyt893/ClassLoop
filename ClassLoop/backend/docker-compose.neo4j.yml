@@ -1,17 +1,17 @@
 services:
-  venture-agent-neo4j:
+  classloop-neo4j:
     image: neo4j:2026.07.1
-    container_name: venture-agent-neo4j
+    container_name: classloop-neo4j
     restart: unless-stopped
     ports:
-      - "7474:7474"
-      - "7687:7687"
+      - "7475:7474"
+      - "7688:7687"
     environment:
-      NEO4J_AUTH: "${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-venture-agent-graph}"
+      NEO4J_AUTH: "neo4j/${CLASSLOOP_NEO4J_PASSWORD:-classloop-graph}"
     volumes:
-      - venture_agent_neo4j_data:/data
-      - venture_agent_neo4j_logs:/logs
+      - classloop_neo4j_data:/data
+      - classloop_neo4j_logs:/logs
 
 volumes:
-  venture_agent_neo4j_data:
-  venture_agent_neo4j_logs:
+  classloop_neo4j_data:
+  classloop_neo4j_logs:

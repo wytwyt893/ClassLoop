@@ -1,6 +1,6 @@
 # 大数据技术课程实践
 
-本仓库以课程实践目录为根，包含当前项目 `ClassLoop/` 和暂时冻结的 `venture_agent/`。两者在 Full 模式下共用 VentureAgent 配置的 Neo4j 实例（Browser `7474`、Bolt `7687`）。
+本仓库以课程实践目录为根，包含当前项目 `ClassLoop/` 和暂时冻结的 `venture_agent/`。两套项目使用相互隔离的 Neo4j：ClassLoop 使用 Browser `7475`、Bolt `7688`；VentureAgent 使用 Browser `7474`、Bolt `7687`。
 
 ## 首次克隆后的准备
 
@@ -17,7 +17,7 @@ Copy-Item ClassLoop\frontend\.env.example ClassLoop\frontend\.env
 Copy-Item venture_agent\backend\.env.example venture_agent\backend\.env
 ```
 
-在 `venture_agent\backend\.env` 中填写 `DEEPSEEK_API_KEY`。若修改 Neo4j 用户名或密码，请保持两套后端配置一致。
+在 `venture_agent\backend\.env` 中填写 `DEEPSEEK_API_KEY`。两套 Neo4j 的端口、账号和数据卷相互独立，不需要保持密码一致。
 
 ## 启动
 
@@ -27,7 +27,7 @@ Copy-Item venture_agent\backend\.env.example venture_agent\backend\.env
 .\start_classloop.ps1 -Mode Visual
 ```
 
-运行 ClassLoop、VentureAgent 和共享 Neo4j：
+运行 ClassLoop、VentureAgent 和 ClassLoop 自己的 Neo4j：
 
 ```powershell
 .\start_classloop.ps1 -Mode Full

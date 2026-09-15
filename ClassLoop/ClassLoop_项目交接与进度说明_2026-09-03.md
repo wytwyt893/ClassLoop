@@ -56,7 +56,7 @@
               ▼
        ClassLoop FastAPI :8100
          ├─ SQLite：业务事实、文件、提取结果
-         ├─ 共享 Neo4j :7687：课件结构、关键词关系与 VentureAgent 图数据
+         ├─ Neo4j :7688：课件结构与关键词关系
          └─ 内存：临时昵称/头像、在线名单、SSE 订阅
 
 未来：FastAPI → 脱敏课堂上下文 → VentureAgent/模型 API → 证据化建议
@@ -243,7 +243,7 @@ docker compose -f .\docker-compose.neo4j.yml up -d
 docker compose -f .\docker-compose.neo4j.yml ps
 ```
 
-看到 `venture-agent-neo4j` 为 Up / running 后仍可能需要等待 Neo4j 初始化；最后以管理员页面“已连接”为准。首次可能需要联网拉取镜像。容器后台运行后，该终端可以关闭。
+看到 `classloop-neo4j` 为 Up / running 后仍可能需要等待 Neo4j 初始化；最后以管理员页面“已连接”为准。首次可能需要联网拉取镜像。容器后台运行后，该终端可以关闭。
 
 **B. 后端终端：**
 
@@ -271,9 +271,9 @@ npm run dev -- --host 127.0.0.1
 | 教师 | teacher@classloop.local / classloop123 |
 | 管理员 | admin@classloop.local / classloop-admin |
 | 预置演示课堂码 | 240805；仅在演示数据未删除/更改时有效，最好从教师工作台获取当前码 |
-| Neo4j Browser | http://127.0.0.1:7474 |
-| Neo4j Bolt / 账号 | bolt://127.0.0.1:7687；neo4j / venture-agent-graph |
-| 容器映射 | 主机 7474 → 容器 7474；主机 7687 → 容器 7687 |
+| Neo4j Browser | http://127.0.0.1:7475 |
+| Neo4j Bolt / 账号 | bolt://127.0.0.1:7688；neo4j / classloop-graph |
+| 容器映射 | 主机 7475 → 容器 7474；主机 7688 → 容器 7687 |
 | 前端配置 | frontend/.env：VITE_API_BASE_URL=http://127.0.0.1:8100 |
 | 后端配置 | backend/.env：CLASSLOOP_DATABASE_PATH、CLASSLOOP_NEO4J_URI/USER/PASSWORD/DATABASE 等 |
 
@@ -316,7 +316,7 @@ Invoke-RestMethod -Uri 'http://127.0.0.1:8100/api/documents' -Headers $headers
 | 正常停止前后端 | 在对应终端 Ctrl+C；不要直接删除数据文件 |
 | 停止图数据库 | backend 目录执行 docker compose -f .\docker-compose.neo4j.yml stop；保留数据卷 |
 | 页面打开但登录/课堂查询失败 | 先检查 8100/api/health；核对 VITE_API_BASE_URL；改前端 .env 后重启 Vite |
-| Neo4j 未连接 | docker info → compose ps → compose logs --tail 50；核对 7687、账号密码与 .env，修改后重启后端 |
+| Neo4j 未连接 | docker info → compose ps → compose logs --tail 50；核对 7688、账号密码与 .env，修改后重启后端 |
 | Docker 管道/权限错误 | 确认 Docker Desktop 引擎已启动；必要时在有权限的 PowerShell 手动执行，不能只安装 Docker 而未启动 |
 | 端口占用 | 检查已运行的服务，不要盲目停止其他项目；若更改后端端口，前端配置也要一致 |
 | 无教师课件上传按钮 | 这是当前待开发功能，不是启动错误；暂用上述 API |

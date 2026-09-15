@@ -100,22 +100,13 @@ if ($Mode -eq "Full") {
         throw "DEEPSEEK_API_KEY is missing or empty in venture_agent\backend\.env."
     }
 
-    if ([string]::IsNullOrWhiteSpace($env:NEO4J_URI)) { $env:NEO4J_URI = "bolt://127.0.0.1:7687" }
-    if ([string]::IsNullOrWhiteSpace($env:NEO4J_USER)) { $env:NEO4J_USER = "neo4j" }
-    if ([string]::IsNullOrWhiteSpace($env:NEO4J_PASSWORD)) { $env:NEO4J_PASSWORD = "venture-agent-graph" }
-    if ([string]::IsNullOrWhiteSpace($env:NEO4J_BROWSER_URL)) { $env:NEO4J_BROWSER_URL = "http://127.0.0.1:7474" }
-    $env:CLASSLOOP_NEO4J_URI = $env:NEO4J_URI
-    $env:CLASSLOOP_NEO4J_USER = $env:NEO4J_USER
-    $env:CLASSLOOP_NEO4J_PASSWORD = $env:NEO4J_PASSWORD
-    $env:CLASSLOOP_NEO4J_DATABASE = "neo4j"
-
-    Write-Step "Checking shared VentureAgent Neo4j"
-    if (Test-TcpPort 7687) {
-        Write-Host "[SKIP] Neo4j is already listening on port 7687; reusing it for both projects." -ForegroundColor Yellow
+    Write-Step "Checking ClassLoop Neo4j"
+    if (Test-TcpPort 7688) {
+        Write-Host "[SKIP] ClassLoop Neo4j is already listening on port 7688; reusing its existing data." -ForegroundColor Yellow
     }
     else {
         if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
-            throw "Neo4j is not listening on port 7687 and Docker CLI was not found. Install Docker Desktop first."
+            throw "ClassLoop Neo4j is not listening on port 7688 and Docker CLI was not found. Install Docker Desktop first."
         }
         if (-not (Test-DockerReady)) {
             $dockerDesktop = Join-Path $env:ProgramFiles "Docker\Docker\Docker Desktop.exe"
@@ -142,8 +133,15 @@ if ($Mode -eq "Full") {
         Push-Location $ClassLoopBackend
         try { docker compose -f docker-compose.neo4j.yml up -d }
         finally { Pop-Location }
-        if ($LASTEXITCODE -ne 0) { throw "Shared Neo4j Docker Compose startup failed." }
-        Wait-TcpPort 7687 "Shared Neo4j" 120
+        if ($LASTEXITCODE -ne 0) { throw "ClassLoop Neo4j Docker Compose startup failed." }
+        Wait-TcpPort 7688 "ClassLoop Neo4j" 120
+    }
+
+    if (Test-TcpPort 7687) {
+        Write-Host "[OK] VentureAgent Neo4j is listening on port 7687" -ForegroundColor Green
+    }
+    else {
+        Write-Host "[WARN] VentureAgent Neo4j is not listening on port 7687; VentureAgent graph-backed features may be unavailable." -ForegroundColor Yellow
     }
 
     Write-Step "Starting VentureAgent"
@@ -183,6 +181,7 @@ Write-Host "  API docs:  http://127.0.0.1:8100/docs"
 Write-Host "  API health:http://127.0.0.1:8100/api/health"
 if ($Mode -eq "Full") {
     Write-Host "  Agent docs:http://127.0.0.1:8140/docs"
-    Write-Host "  Neo4j:     http://127.0.0.1:7474"
+    Write-Host "  ClassLoop Neo4j:http://127.0.0.1:7475"
+    Write-Host "  VentureAgent Neo4j:http://127.0.0.1:7474"
 }
 Write-Host "`nKeep the service PowerShell windows open while demonstrating ClassLoop." -ForegroundColor Yellow
